@@ -6,7 +6,7 @@ import { PRODUCTS } from "@/data/products";
 import { ProductCardGrid } from "@/features/shop/components/product-card-grid";
 import { Sparkles, Filter, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
+// import Link from "next/link"; // removed unused import
 
 export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = React.useState<string>("all");
@@ -118,7 +118,7 @@ export default function ShopPage() {
             <span className="text-4xl mb-3 block">🔍</span>
             <h3 className="text-lg font-serif font-bold text-obsidian mb-2">No Products Found</h3>
             <p className="text-stone text-xs sm:text-sm max-w-sm mx-auto mb-6">
-              We couldn't find any products matching "{searchQuery}". Try searching for makhana or almonds.
+              We couldn&apos;t find any products matching &quot;{searchQuery}&quot;. Try searching for makhana or almonds.
             </p>
             <button
               onClick={() => {
