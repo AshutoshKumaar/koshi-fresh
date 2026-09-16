@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ShieldCheck, Award, Sparkles, Sprout, CheckCircle2, FileCheck, ShieldAlert, Award as MedalIcon } from "lucide-react";
+import { ShieldCheck, Award, Sparkles, Sprout, CheckCircle2, FileCheck, ShieldAlert } from "lucide-react";
 import { cn } from "@/utils/cn";
 
 export interface FeatureItem {

@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
-import { Mail, Phone, MapPin, Send, MessageSquare, ShieldCheck, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Send, ShieldCheck, Clock } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = React.useState({
@@ -39,7 +39,7 @@ export default function ContactPage() {
               Get in Touch with Koshi Fresh
             </h1>
             <p className="text-ivory/80 text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto">
-              Have questions about order tracking, bulk corporate gifting, or farm sourcing? Send us a message and we'll reply promptly.
+              Have questions about order tracking, bulk corporate gifting, or farm sourcing? Send us a message and we will reply promptly.
             </p>
           </div>
         </Container>

@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { ShieldCheck, Award, Heart, Sprout, Users, CheckCircle2, ArrowRight } from "lucide-react";
+import { ShieldCheck, Award, Users, ArrowRight } from "lucide-react";
 
 export default function AboutPage() {
   return (

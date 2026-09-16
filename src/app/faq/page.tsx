@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Container } from "@/components/ui/container";
-import { HelpCircle, ChevronDown, ShieldCheck, Truck, Package, PhoneCall } from "lucide-react";
+import { HelpCircle, ChevronDown, PhoneCall } from "lucide-react";
 import Link from "next/link";
 
 export default function FAQPage() {
@@ -47,7 +47,7 @@ export default function FAQPage() {
               Frequently Asked Questions
             </h1>
             <p className="text-ivory/80 text-sm font-light">
-              Got questions about sourcing, shipping, or lab certifications? We've got answers.
+              Got questions about sourcing, shipping, or lab certifications? We have got answers.
             </p>
           </div>
         </Container>

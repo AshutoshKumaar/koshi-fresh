@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 import { PRODUCTS } from "@/data/products";
 import { ProductCardGrid } from "@/features/shop/components/product-card-grid";
 import Link from "next/link";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function CategoryPage() {
   const params = useParams();

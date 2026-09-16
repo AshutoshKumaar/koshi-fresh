@@ -8,10 +8,10 @@ import { useShop } from "@/context/shop-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
-import { ShieldCheck, ArrowLeft, CheckCircle2, CreditCard, Truck, Tag } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CreditCard, Truck } from "lucide-react";
 
 export default function CheckoutPage() {
-  const { cartCount, setCartCount } = useShop();
+  const { setCartCount } = useShop();
   const [paymentMethod, setPaymentMethod] = React.useState<"upi" | "cod" | "card">("upi");
   const [couponCode, setCouponCode] = React.useState("");
   const [discountAmount, setDiscountAmount] = React.useState(0);

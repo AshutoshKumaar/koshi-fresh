@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { Heart, Activity, ShieldCheck, Zap, Award, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
+import { Heart, Activity, ShieldCheck, Zap, Sparkles, ArrowRight } from "lucide-react";
 
 export default function HealthBenefitsPage() {
   const benefits = [

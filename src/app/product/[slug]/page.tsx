@@ -15,7 +15,7 @@ import { ProductCardRecommendation } from "@/features/shop/components/product-ca
 import { useShop } from "@/context/shop-context";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
-import { ShieldCheck, Award, Heart, ArrowLeft, Truck, RefreshCw, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Heart, ArrowLeft } from "lucide-react";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -23,7 +23,7 @@ export default function ProductDetailPage() {
   const slug = params?.slug as string;
 
   const product = PRODUCTS.find((p) => p.slug === slug) || PRODUCTS[0];
-  const { cartCount, setCartCount, wishlistCount, setWishlistCount, setIsCartOpen } = useShop();
+  const { cartCount, setCartCount, wishlistCount, setWishlistCount } = useShop();
 
   const [selectedVariant, setSelectedVariant] = React.useState(product.variants[0]);
   const [quantity, setQuantity] = React.useState(1);

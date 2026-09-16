@@ -2,9 +2,8 @@
 
 import * as React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { Utensils, Clock, Flame, Sparkles, ArrowRight, Heart } from "lucide-react";
+import { Utensils, Clock, Flame } from "lucide-react";
 
 export default function RecipesPage() {
   const recipes = [

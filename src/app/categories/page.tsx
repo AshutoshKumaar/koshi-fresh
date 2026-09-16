@@ -4,7 +4,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { Sparkles, ArrowRight, Grid, Award, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Grid, CheckCircle2 } from "lucide-react";
 
 export default function CategoriesPage() {
   const categoriesList = [

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Container } from "@/components/ui/container";
-import { ShieldCheck, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 
 export default function PrivacyPage() {
   return (
