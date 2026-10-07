@@ -58,6 +58,39 @@ body {
   font-family: var(--font-mooli), var(--font-plus-jakarta), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 100%;
+}
+
+html { scroll-behavior: smooth; }
+body { overflow-x: clip; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+
+/* Keep interactive controls discoverable and make hover feedback feel responsive. */
+:where(a[href], button:not(:disabled), [role="button"], summary) {
+  cursor: pointer;
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform, filter;
+  transition-duration: 180ms;
+  transition-timing-function: ease;
+}
+
+:where(a[href], button:not(:disabled), [role="button"], summary):hover {
+  filter: brightness(0.96);
+}
+
+button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
+
+@keyframes loading-progress {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(330%); }
+}
+
+@media (max-width: 767px) {
+  input, select, textarea { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
 
 h1, h2, h3, h4, h5, h6 {

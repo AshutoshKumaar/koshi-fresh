@@ -25,7 +25,7 @@ export function ProductCardFeatured({
   disabled = false,
   ...props
 }: ProductCardFeaturedProps) {
-  const { cartCount, setCartCount } = useShop();
+  const { addToCart } = useShop();
   const [selectedVariantId, setSelectedVariantId] = React.useState(product.variants[0].id);
   const [quantity, setQuantity] = React.useState(1);
   const [isFavorite, setIsFavorite] = React.useState(false);
@@ -33,7 +33,7 @@ export function ProductCardFeatured({
   const selectedVariant = product.variants.find((v) => v.id === selectedVariantId) || product.variants[0];
 
   const handleAddToCart = () => {
-    setCartCount(cartCount + quantity);
+    addToCart(product.slug, selectedVariant.id, quantity);
     toast({
       variant: "success",
       title: "Added to Bag",

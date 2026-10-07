@@ -39,7 +39,7 @@ const TRUST_BADGES = [
 
 export function TrustSection() {
   return (
-    <section className="w-full bg-white border-y border-sand/50 py-10">
+    <section className="w-full overflow-hidden bg-white border-y border-sand/50 py-5 md:py-10">
       <Container>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 items-center">
           {TRUST_BADGES.map((badge, idx) => {
@@ -47,15 +47,15 @@ export function TrustSection() {
             return (
               <div
                 key={idx}
-                className="flex flex-col items-center text-center p-4 rounded-2xl bg-sand/10 hover:bg-sand/30 transition-all duration-300 group border border-transparent hover:border-sand/60"
+                className="flex min-w-0 flex-col items-center text-center p-2.5 md:p-4 rounded-2xl bg-sand/10 hover:bg-sand/30 transition-colors duration-300 group border border-transparent hover:border-sand/60"
               >
                 <div className="h-12 w-12 rounded-full bg-forest/10 flex items-center justify-center text-forest group-hover:scale-110 transition-transform mb-3">
                   <IconComponent className="h-6 w-6 stroke-[1.75]" />
                 </div>
-                <h4 className="font-serif font-semibold text-obsidian text-sm">
+                <h4 className="max-w-full break-words font-serif font-semibold text-obsidian text-xs md:text-sm">
                   {badge.title}
                 </h4>
-                <span className="text-[11px] font-sans text-stone font-light block mt-0.5">
+                <span className="max-w-full break-words text-[10px] md:text-[11px] font-sans text-stone font-light block mt-0.5">
                   {badge.subtitle}
                 </span>
               </div>

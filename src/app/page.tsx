@@ -23,9 +23,12 @@ import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
+import { Search } from "lucide-react";
+import { useShop } from "@/context/shop-context";
 
 export default function HomePage() {
   const [email, setEmail] = React.useState("");
+  const { setIsSearchOpen } = useShop();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +43,10 @@ export default function HomePage() {
 
   return (
     <div className="w-full">
+      <div className="space-y-2 border-b border-sand/50 bg-white px-4 pb-3 pt-[4.25rem] md:hidden">
+        <button type="button" onClick={() => setIsSearchOpen(true)} className="flex h-11 w-full items-center gap-2 rounded-xl border border-sand bg-sand/20 px-3 text-left text-sm text-stone shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest" aria-label="Search products"><Search className="h-4 w-4 shrink-0" />Search makhana, almonds, snacks</button>
+        <nav aria-label="Popular categories" className="-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1">{[{ label: "All", href: "/shop" }, { label: "Makhana", href: "/shop/makhana" }, { label: "Dry Fruits", href: "/shop/dry-fruits" }, { label: "Seeds", href: "/shop/seeds" }, { label: "Gift Boxes", href: "/shop/gift-boxes" }].map((category) => <Link key={category.href} href={category.href} className="min-h-10 shrink-0 snap-start rounded-full border border-sand bg-ivory px-4 py-2 text-xs font-semibold text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest">{category.label}</Link>)}</nav>
+      </div>
       {/* 1. HERO SECTION */}
       <Hero />
 
@@ -50,38 +57,38 @@ export default function HomePage() {
       <CategoriesGrid />
 
       {/* 4. BEST SELLERS GRID */}
-      <Section id="shop" size="sm" className="bg-white">
+      <Section id="shop" size="sm" className="bg-white py-8 md:py-16">
         <Container>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
+          <div className="flex flex-row items-end justify-between gap-3 mb-5 md:mb-10 md:items-end">
             <div>
               <span className="font-label-premium text-gold block mb-2">
                 Proven Favorites
               </span>
-              <h2 className="font-section-title text-forest">
+              <h2 className="font-section-title text-forest text-xl sm:text-3xl">
                 Best Seller Superfoods
               </h2>
             </div>
             <Link
               href="/shop"
-              className="inline-flex items-center text-sm font-sans font-semibold text-forest hover:text-forest-light tracking-wide cursor-pointer group"
+              className="inline-flex min-h-11 shrink-0 items-center text-xs font-sans font-semibold text-forest hover:text-forest-light tracking-wide cursor-pointer group md:text-sm"
             >
               View All Products
               <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-3 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 lg:grid-cols-4 lg:gap-6">
             {PRODUCTS.map((product) => (
-              <ProductCardGrid key={product.slug} product={product} />
+              <ProductCardGrid key={product.slug} product={product} className="w-[72vw] max-w-[280px] shrink-0 snap-start md:w-auto md:max-w-none" />
             ))}
           </div>
         </Container>
       </Section>
 
       {/* 5. WHY KOSHI FRESH (Our Core Standards & Trust) */}
-      <Section size="sm" className="bg-ivory/40 border-t border-sand/50">
+      <Section size="sm" className="bg-ivory/40 border-t border-sand/50 py-8 md:py-16">
         <Container>
-          <div className="text-center max-w-4xl mx-auto mb-12">
+          <div className="text-center max-w-4xl mx-auto mb-7 md:mb-12">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-700/10 border border-emerald-700/30 text-emerald-800 text-xs font-sans font-bold uppercase tracking-widest mb-3">
               🛡️ Lab Tested & FSSAI Certified
             </span>

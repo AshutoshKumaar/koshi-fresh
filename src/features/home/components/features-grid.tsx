@@ -70,15 +70,15 @@ export function FeaturesGrid({ className, ...props }: FeaturesGridProps) {
       {/* High-Trust Certification & Lab Verification Banner */}
       <div className="rounded-3xl p-5 bg-white border border-sand/80 shadow-premium-sm grid grid-cols-2 md:grid-cols-4 gap-4 divide-y md:divide-y-0 md:divide-x divide-sand/50">
         {CERTIFICATIONS.map((cert, idx) => (
-          <div key={idx} className="flex items-center gap-3 px-3 py-1">
+          <div key={idx} className="flex min-w-0 items-center gap-2 px-2 py-1 md:gap-3 md:px-3">
             <div className="h-10 w-10 rounded-xl bg-sand/20 flex items-center justify-center shrink-0 border border-sand/50">
               {cert.icon}
             </div>
-            <div>
-              <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-stone block">
+            <div className="min-w-0">
+              <span className="break-words text-[9px] md:text-[10px] font-sans font-bold uppercase tracking-wide md:tracking-wider text-stone block">
                 {cert.label}
               </span>
-              <span className="text-xs font-sans font-bold text-obsidian block mt-0.5">
+              <span className="break-words text-[10px] md:text-xs font-sans font-bold text-obsidian block mt-0.5">
                 {cert.value}
               </span>
             </div>
@@ -97,11 +97,11 @@ export function FeaturesGrid({ className, ...props }: FeaturesGridProps) {
         {coreStandards.map((item, index) => (
           <div
             key={index}
-            className="group relative rounded-3xl p-7 bg-white border border-sand/70 shadow-premium-sm hover:shadow-2xl hover:border-forest/30 transition-all duration-500 flex flex-col justify-between"
+            className="group relative min-w-0 rounded-2xl p-4 md:rounded-3xl md:p-7 bg-white border border-sand/70 shadow-premium-sm md:hover:shadow-2xl md:hover:border-forest/30 transition-all duration-300 flex flex-col justify-between"
           >
             <div>
               {/* Header row with Icon & Highlight Tag */}
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between gap-2 mb-4 md:mb-6">
                 <div className="h-13 w-13 rounded-2xl bg-sand/30 border border-sand/60 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-premium-sm">
                   {item.icon}
                 </div>
@@ -111,7 +111,7 @@ export function FeaturesGrid({ className, ...props }: FeaturesGridProps) {
               </div>
 
               {/* Title & Subtitle */}
-              <h3 className="font-serif text-xl font-bold text-obsidian group-hover:text-forest transition-colors">
+              <h3 className="break-words font-serif text-base md:text-xl font-bold text-obsidian group-hover:text-forest transition-colors">
                 {item.title}
               </h3>
               <span className="text-[11px] font-sans font-semibold text-gold block mt-0.5 mb-3">

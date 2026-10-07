@@ -31,7 +31,7 @@ export default function CategoryPage() {
   const displayProducts = categoryProducts.length > 0 ? categoryProducts : PRODUCTS;
 
   return (
-    <div className="pt-24 pb-16 bg-sand/10 min-h-screen">
+    <div className="pt-16 pb-12 bg-sand/10 min-h-screen md:pt-24 md:pb-16">
       <div className="bg-gradient-to-r from-forest-dark via-forest to-emerald-900 text-ivory py-12 md:py-16 mb-10">
         <Container>
           <div className="max-w-3xl">

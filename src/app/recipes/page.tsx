@@ -74,7 +74,7 @@ export default function RecipesPage() {
 
   return (
     <div className="bg-sand/10 min-h-screen pb-20">
-      <div className="bg-gradient-to-r from-forest-dark via-forest to-emerald-950 text-ivory pt-28 md:pt-32 pb-16 md:pb-20 mb-12">
+      <div className="bg-gradient-to-r from-forest-dark via-forest to-emerald-950 text-ivory pt-20 md:pt-32 pb-8 md:pb-20 mb-5 md:mb-12">
         <Container>
           <div className="max-w-3xl text-center mx-auto space-y-4">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold-light text-xs font-sans font-bold uppercase tracking-wider">

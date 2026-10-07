@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-emerald-950 via-forest-dark to-black text-ivory border-t border-gold/30 pt-16 pb-12 font-sans relative overflow-hidden select-none">
+    <footer className="bg-gradient-to-b from-emerald-950 via-forest-dark to-black text-ivory border-t border-gold/30 pt-10 pb-[calc(6rem+env(safe-area-inset-bottom))] md:pt-16 md:pb-12 font-sans relative overflow-hidden select-none">
       {/* Ambient Glow Effects */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-gold/5 rounded-full filter blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full filter blur-[100px] pointer-events-none" />

@@ -23,7 +23,7 @@ export default function ProductDetailPage() {
   const slug = params?.slug as string;
 
   const product = PRODUCTS.find((p) => p.slug === slug) || PRODUCTS[0];
-  const { cartCount, setCartCount, wishlistCount, setWishlistCount } = useShop();
+  const { addToCart, wishlistCount, setWishlistCount } = useShop();
 
   const [selectedVariant, setSelectedVariant] = React.useState(product.variants[0]);
   const [quantity, setQuantity] = React.useState(1);
@@ -37,7 +37,7 @@ export default function ProductDetailPage() {
   }, [product]);
 
   const handleAddToCart = () => {
-    setCartCount(cartCount + quantity);
+    addToCart(product.slug, selectedVariant.id, quantity);
     toast({
       title: "Added to Bag",
       description: `${quantity}x ${product.name} (${selectedVariant.weight}) added to your shopping bag.`,
@@ -45,7 +45,7 @@ export default function ProductDetailPage() {
   };
 
   const handleBuyNow = () => {
-    setCartCount(cartCount + quantity);
+    addToCart(product.slug, selectedVariant.id, quantity);
     router.push("/checkout");
   };
 
@@ -64,27 +64,28 @@ export default function ProductDetailPage() {
   const relatedProducts = PRODUCTS.filter((p) => p.slug !== product.slug).slice(0, 3);
 
   return (
-    <div className="pt-24 pb-20 bg-sand/10 min-h-screen">
+    <div className="pt-16 pb-28 bg-sand/10 min-h-screen md:pt-24 md:pb-20">
       <Container>
         {/* Breadcrumb Navigation */}
-        <div className="mb-6">
-          <Link href="/shop" className="inline-flex items-center gap-1.5 text-xs font-sans text-stone hover:text-forest transition-colors">
+        <div className="mb-3 md:mb-6">
+          <Link href="/shop" className="inline-flex min-h-11 items-center gap-1.5 text-xs font-sans text-stone hover:text-forest transition-colors">
             <ArrowLeft className="h-3.5 w-3.5" /> Back to Shop Catalog
           </Link>
         </div>
 
         {/* Main Product Layout */}
-        <div className="bg-white rounded-3xl border border-sand/60 shadow-premium-md p-6 sm:p-10 mb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
+        <div className="bg-white rounded-2xl md:rounded-3xl border border-sand/60 shadow-premium-md p-3 sm:p-6 lg:p-10 mb-8 md:mb-16">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-14">
             
             {/* Left Column: Product Image & Badges */}
             <div className="lg:col-span-6 space-y-4">
-              <div className="relative aspect-square w-full rounded-2xl bg-sand/30 overflow-hidden border border-sand/50 shadow-premium-sm">
+              <div className="relative aspect-square w-full rounded-2xl bg-sand/20 overflow-hidden border border-sand/50 shadow-premium-sm">
                 <Image
                   src={product.images[0]}
                   alt={product.name}
                   fill
-                  className="object-cover"
+                  sizes="(max-width: 1023px) 100vw, 50vw"
+                  className="object-contain p-3 md:object-cover md:p-0"
                   priority
                 />
                 {product.badges && product.badges.length > 0 && (
@@ -109,7 +110,7 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Right Column: Details, Price, Actions */}
-            <div className="lg:col-span-6 space-y-6">
+            <div className="lg:col-span-6 space-y-4 md:space-y-6">
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs uppercase tracking-widest font-sans font-bold text-forest">
@@ -117,7 +118,7 @@ export default function ProductDetailPage() {
                   </span>
                   <Rating rating={product.rating} reviewsCount={product.reviewsCount} />
                 </div>
-                <h1 className="font-serif text-3xl sm:text-4xl font-bold text-obsidian tracking-tight mb-2">
+                <h1 className="font-serif text-2xl sm:text-4xl font-bold text-obsidian tracking-tight mb-2">
                   {product.name}
                 </h1>
                 <p className="text-stone text-sm sm:text-base font-light leading-relaxed">
@@ -151,13 +152,13 @@ export default function ProductDetailPage() {
 
               {/* Quantity Picker & Primary Action Buttons */}
               <div className="space-y-4 pt-2">
-                <div className="flex items-center gap-4">
-                  <div className="w-32 shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="w-32 min-h-11 shrink-0">
                     <QuantitySelector quantity={quantity} onChange={setQuantity} />
                   </div>
                   <button
                     onClick={toggleWishlist}
-                    className={`p-3 rounded-xl border transition-colors cursor-pointer ${
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl border transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest ${
                       isWishlisted
                         ? "border-feedback-error bg-feedback-error/10 text-feedback-error"
                         : "border-sand bg-white hover:bg-sand/30 text-stone"
@@ -168,12 +169,12 @@ export default function ProductDetailPage() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="grid grid-cols-2 gap-2 pt-2">
                   <Button
                     onClick={handleAddToCart}
                     variant="outline"
                     size="lg"
-                    className="w-full font-sans font-bold h-12 text-sm rounded-xl border-forest text-forest hover:bg-forest/5 cursor-pointer"
+                    className="w-full min-w-0 whitespace-normal font-sans font-bold h-12 text-xs sm:text-sm rounded-xl border-forest text-forest hover:bg-forest/5 cursor-pointer"
                   >
                     Add to Shopping Bag
                   </Button>
@@ -181,7 +182,7 @@ export default function ProductDetailPage() {
                     onClick={handleBuyNow}
                     variant="primary"
                     size="lg"
-                    className="w-full font-sans font-bold h-12 text-sm rounded-xl bg-forest hover:bg-forest-light text-white shadow-premium-md cursor-pointer"
+                    className="w-full min-w-0 whitespace-normal font-sans font-bold h-12 text-xs sm:text-sm rounded-xl bg-forest hover:bg-forest-light text-white shadow-premium-md cursor-pointer"
                   >
                     Buy Now
                   </Button>
@@ -226,7 +227,7 @@ export default function ProductDetailPage() {
 
         {/* Recommended Products */}
         <div>
-          <h2 className="font-serif text-2xl font-bold text-obsidian mb-6">
+          <h2 className="font-serif text-xl md:text-2xl font-bold text-obsidian mb-4 md:mb-6">
             You Might Also Enjoy
           </h2>
           <div className="space-y-4">
@@ -236,6 +237,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </Container>
+      <div className="fixed inset-x-0 z-30 border-t border-sand/70 bg-white/95 px-3 py-3 shadow-[0_-8px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl md:hidden bottom-[calc(4.4rem+env(safe-area-inset-bottom))]"><div className="mx-auto flex max-w-lg items-center gap-3"><div className="min-w-0 shrink-0"><p className="text-[10px] text-stone">{selectedVariant.weight}</p><p className="font-serif text-lg font-bold text-forest">₹{selectedVariant.price}</p></div><Button onClick={handleBuyNow} className="h-12 min-w-0 flex-1 rounded-xl bg-forest text-sm font-bold text-white">Buy Now</Button></div></div>
     </div>
   );
 }

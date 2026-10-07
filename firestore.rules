@@ -1,0 +1,45 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if user is owner of the data
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Customer Profiles: users/{userId}
+    match /users/{userId} {
+      // Users can only read and write their own profile
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if false; // Disallow deletion from client
+    }
+
+    // Orders Collection: orders/{orderId}
+    match /orders/{orderId} {
+      // Users can read only their own orders
+      allow read: if isAuthenticated() && (
+        resource.data.userId == request.auth.uid
+      );
+      
+      // Orders are written through the server API after server-side validation.
+      // Firebase Admin SDK writes bypass these client rules.
+      allow create: if false;
+
+      // Client cannot directly modify or delete placed orders
+      allow update, delete: if false;
+    }
+
+    // Deny access to any other unspecified collection
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -14,6 +14,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+import { AuthProvider } from "@/context/auth-context";
 import { ShopProvider } from "@/context/shop-context";
 import { LayoutWrapper } from "@/components/common/layout-wrapper";
 import { Toaster } from "@/components/ui/toast";
@@ -33,12 +34,14 @@ export default function RootLayout({
       <body
         className={`${mooli.variable} ${plusJakartaSans.variable} antialiased font-sans`}
       >
-        <ShopProvider>
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
-          <Toaster />
-        </ShopProvider>
+        <AuthProvider>
+          <ShopProvider>
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
+            <Toaster />
+          </ShopProvider>
+        </AuthProvider>
       </body>
     </html>
   );

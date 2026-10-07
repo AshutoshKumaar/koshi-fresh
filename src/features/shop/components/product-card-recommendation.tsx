@@ -22,21 +22,21 @@ export function ProductCardRecommendation({
   disabled = false,
   ...props
 }: ProductCardRecommendationProps) {
-  const { cartCount, setCartCount } = useShop();
+  const { addToCart, removeFromCart } = useShop();
   const [isChecked, setIsChecked] = React.useState(false);
   const selectedVariant = product.variants[0];
 
   const handleCheckboxChange = (checked: boolean) => {
     setIsChecked(checked);
     if (checked) {
-      setCartCount(cartCount + 1);
+      addToCart(product.slug, selectedVariant.id);
       toast({
         variant: "success",
         title: "Frequently Bought Together",
         description: `Added 1x ${product.name} to bundle.`,
       });
     } else {
-      setCartCount(Math.max(0, cartCount - 1));
+      removeFromCart(product.slug, selectedVariant.id);
       toast({
         variant: "info",
         title: "Bundle Updated",

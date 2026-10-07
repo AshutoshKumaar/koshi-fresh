@@ -6,7 +6,7 @@ import { Lock } from "lucide-react";
 
 export default function PrivacyPage() {
   return (
-    <div className="pt-24 pb-20 bg-sand/10 min-h-screen">
+    <div className="pt-16 pb-12 bg-sand/10 min-h-screen md:pt-24 md:pb-20">
       <div className="bg-gradient-to-r from-forest-dark via-forest to-emerald-950 text-ivory py-14 mb-10">
         <Container>
           <div className="max-w-2xl text-center mx-auto space-y-3">

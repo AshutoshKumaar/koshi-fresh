@@ -31,7 +31,7 @@ export function VariantSelector({
               disabled={disabled || !v.inStock}
               onClick={() => onChange(v.id)}
               className={cn(
-                "h-10 px-4 text-xs font-medium rounded-lg border transition-all duration-200 select-none cursor-pointer flex items-center justify-center gap-1",
+                "min-h-11 px-4 text-xs font-medium rounded-lg border transition-all duration-200 select-none cursor-pointer flex items-center justify-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest",
                 isSelected
                   ? "bg-forest border-forest text-ivory shadow-premium-sm"
                   : "bg-white border-stone/50 text-obsidian hover:border-forest/60",

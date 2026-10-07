@@ -19,9 +19,9 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 124,
     badges: ["Best Seller", "9mm+ Jumbo"],
     variants: [
-      { id: "raw-250", weight: "250g", price: 299, originalPrice: 349, inStock: true },
-      { id: "raw-500", weight: "500g", price: 549, originalPrice: 649, inStock: true },
-      { id: "raw-1000", weight: "1kg Pack", price: 999, originalPrice: 1199, inStock: false }
+      { id: "raw-250", weight: "250g", weightGrams: 250, price: 299, originalPrice: 349, inStock: true },
+      { id: "raw-500", weight: "500g", weightGrams: 500, price: 549, originalPrice: 649, inStock: true },
+      { id: "raw-1000", weight: "1kg Pack", weightGrams: 1000, price: 999, originalPrice: 1199, inStock: false }
     ]
   },
   {
@@ -42,8 +42,8 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 142,
     badges: ["AI Studio Quality", "W240 Jumbo"],
     variants: [
-      { id: "cashew-250", weight: "250g", price: 449, originalPrice: 549, inStock: true },
-      { id: "cashew-500", weight: "500g", price: 849, originalPrice: 999, inStock: true }
+      { id: "cashew-250", weight: "250g", weightGrams: 250, price: 449, originalPrice: 549, inStock: true },
+      { id: "cashew-500", weight: "500g", weightGrams: 500, price: 849, originalPrice: 999, inStock: true }
     ]
   },
   {
@@ -64,8 +64,8 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 204,
     badges: ["High Fiber", "100% Natural"],
     variants: [
-      { id: "almond-250", weight: "250g", price: 399, originalPrice: 499, inStock: true },
-      { id: "almond-500", weight: "500g", price: 749, originalPrice: 949, inStock: true }
+      { id: "almond-250", weight: "250g", weightGrams: 250, price: 399, originalPrice: 499, inStock: true },
+      { id: "almond-500", weight: "500g", weightGrams: 500, price: 749, originalPrice: 949, inStock: true }
     ]
   },
   {
@@ -86,8 +86,8 @@ export const PRODUCTS: Product[] = [
     reviewsCount: 86,
     badges: ["Ghee Roasted", "Clean Label"],
     variants: [
-      { id: "roasted-150", weight: "150g", price: 349, originalPrice: 399, inStock: true },
-      { id: "roasted-300", weight: "300g", price: 629, originalPrice: 749, inStock: true }
+      { id: "roasted-150", weight: "150g", weightGrams: 150, price: 349, originalPrice: 399, inStock: true },
+      { id: "roasted-300", weight: "300g", weightGrams: 300, price: 629, originalPrice: 749, inStock: true }
     ]
   }
 ];

@@ -36,12 +36,12 @@ export function QuantitySelector({
       <span className="font-label-premium text-stone text-[10px] block">
         Select Quantity
       </span>
-      <div className="flex items-center rounded-lg border border-stone bg-white h-11 w-32 justify-between px-2">
+      <div className="flex items-center rounded-lg border border-stone bg-white h-12 w-36 justify-between px-2">
         <button
           type="button"
           disabled={disabled || quantity <= min}
           onClick={handleDecrement}
-          className="p-1.5 rounded text-stone hover:text-forest hover:bg-sand/30 transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed cursor-pointer"
+          className="flex h-10 w-10 items-center justify-center rounded-lg text-stone hover:text-forest hover:bg-sand/30 transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest"
           aria-label="Decrease quantity"
         >
           <Minus className="h-3.5 w-3.5" />
@@ -53,7 +53,7 @@ export function QuantitySelector({
           type="button"
           disabled={disabled || quantity >= max}
           onClick={handleIncrement}
-          className="p-1.5 rounded text-stone hover:text-forest hover:bg-sand/30 transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed cursor-pointer"
+          className="flex h-10 w-10 items-center justify-center rounded-lg text-stone hover:text-forest hover:bg-sand/30 transition-colors disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest"
           aria-label="Increase quantity"
         >
           <Plus className="h-3.5 w-3.5" />
