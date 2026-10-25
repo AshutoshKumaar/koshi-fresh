@@ -180,7 +180,14 @@ export async function POST(request: Request) {
     const message = error instanceof Error ? error.message : "Could not place your order. Please try again.";
     const status = message.startsWith("Firebase Admin is not configured") ? 503 : 500;
     debug(`outer handler error; response status ${status}`);
-    console.error("[ORDER DEBUG] outer handler error type", { name: error instanceof Error ? error.name : "UnknownError" });
+    const errorDetails = error instanceof Error
+      ? {
+          name: error.name,
+          code: "code" in error && (typeof error.code === "string" || typeof error.code === "number") ? error.code : undefined,
+          message: error.message.replace(/-----BEGIN [^-]+-----[\s\S]*?-----END [^-]+-----/g, "[REDACTED KEY]").slice(0, 400),
+        }
+      : { name: "UnknownError" };
+    console.error("[ORDER DEBUG] outer handler error", errorDetails);
     return errorResponse(status === 503 ? message : "Could not place your order. Please try again.", status);
   }
 }

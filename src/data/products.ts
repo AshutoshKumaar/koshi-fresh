@@ -1,5 +1,46 @@
 import { Product } from "@/types/shop";
 
+const FLIPKART_MAKHANA_LISTINGS = [
+  { name: "Koshi Fresh 3 Suta Small Handpicked Makhana | Ideal for Roasting & Snacking Fox Nut (1 x 500 g)", sku: "KF-3SUTA-RAW-500G", mrp: 599, price: 400, grams: 500, stock: 2189 },
+  { name: "Koshi Fresh Premium Raw Makhana Combo 1kg (500g × 2) Fox Nut (2 x 0.5 kg)", sku: "KOSHI-MAKHANA-500X2-1KG", mrp: 1699, price: 1000, grams: 1000, stock: 1538 },
+  { name: "Koshi Fresh Makhana Powder | Fox Nut Powder | Healthy Diet Fox Nut (1 x 400 g)", sku: "KFM-POWDER-400G", mrp: 549, price: 170, grams: 400, stock: 1978 },
+  { name: "Koshi Fresh Elite Makhana | Shahi Dana | Organic Fox Nuts | Made for Premium Tastes (1 x 500 g)", sku: "KOSHI-F-MAKHANA-500", mrp: 1099, price: 767, grams: 500, stock: 4997 },
+  { name: "Koshi Fresh 3 Suta Small Handpicked Makhana | Ideal for Roasting & Snacking Fox Nut (1 x 200 g)", sku: "KF-3SUTA-RAW-200G", mrp: 299, price: 219, grams: 200, stock: 981 },
+  { name: "Koshi Fresh Medium Size Raw Makhana | Fresh Bihar Fox Nuts (1 x 1 kg)", sku: "MAKHANA_MEDIUM_1KG_V1", mrp: 1999, price: 795, grams: 1000, stock: 4759 },
+  { name: "Koshi Fresh Raw Makhana Fox Nut (1 x 200 g)", sku: "KOSHI-MAKHANA-RAW-200G", mrp: 699, price: 280, grams: 200, stock: 203 },
+  { name: "Koshi Fresh Medium Makhana Raw 2kg Combo Fox Nut (1 x 2 kg)", sku: "MEDIUM-MAKHANA-RAW-2KG", mrp: 3999, price: 1681, grams: 2000, stock: 1097 },
+  { name: "Koshi Fresh Medium Size Raw Makhana | Plain Phool Makhana | Vrat Snack (1 kg)", sku: "KF-PURE-4-SUTA", mrp: 1184, price: 751, grams: 1000, stock: 4996 },
+  { name: "Koshi Fresh Premium Raw Makhana Fox Nut (1 x 500 g)", sku: "KOSHIMAKHANARAW500", mrp: 1299, price: 500, grams: 500, stock: 481 },
+  { name: "Koshi Fresh Raw Makhana 100g Combo Fox Nut (2 x 50 g)", sku: "KF-RAW-100X2", mrp: 599, price: 250, grams: 100, stock: 500 },
+  { name: "Koshi Fresh Medium Raw Makhana 250g Fox Nut (1 x 250 g)", sku: "KFM-MEDIUM-250G", mrp: 699, price: 238, grams: 250, stock: 1995 },
+  { name: "Koshi Fresh Medium Handpicked Raw Makhana 500g Fox Nut (1 x 500 g)", sku: "MEDIUM_MAKHANA_500G", mrp: 999, price: 420, grams: 500, stock: 925 },
+  { name: "Koshi Fresh Raw Makhana Fox Nuts (2 x 200 g) Pack of 2", sku: "KF-RAW-200X2", mrp: 899, price: 534, grams: 400, stock: 100 },
+  { name: "Koshi Fresh Premium Raw Makhana 100g Fox Nut (1 x 100 g)", sku: "KOSHI-MAKHANA-100G", mrp: 399, price: 145, grams: 100, stock: 492 },
+  { name: "Koshi Fresh Puffed Fox Nut (1 x 250 g)", sku: "MAKHANA001", mrp: 899, price: 295, grams: 250, stock: 4900 },
+  { name: "Koshi Fresh Premium Big Size Makhana | Jumbo Fox Nuts | Bihar Special (1 x 1 kg)", sku: "KOSHI_PREMIUM_MAKHANA_1KG_BIG", mrp: 2999, price: 1000, grams: 1000, stock: 4886 },
+  { name: "Koshi Fresh Premium Raw Makhana Combo 500g (250g × 2) Fox Nut", sku: "MAKHANA-250G-COMBO", mrp: 899, price: 587, grams: 500, stock: 389 },
+  { name: "Koshi Fresh Premium Pure 6 Suta Jumbo Raw Makhana (1 x 1 kg)", sku: "KF-6SUTA-RAW-1KG", mrp: 1999, price: 1424, grams: 1000, stock: 4980 },
+  { name: "Koshi Fresh Premium Makhana Raw 2kg Combo Fox Nut (1 x 2 kg)", sku: "PREMIUM-MAKHANA-RAW-2KG", mrp: 5999, price: 2083, grams: 2000, stock: 197 },
+  { name: "Koshi Fresh Raw Makhana 50g Fox Nut (1 x 50 g)", sku: "KOSHI-MAKHANA-RAW-50G", mrp: 299, price: 142, grams: 50, stock: 288 },
+  { name: "Koshi Fresh Puffed Fox Nut (250 g)", sku: "MAKHANA001SH", mrp: 899, price: 286, grams: 250, stock: 660 },
+  { name: "Koshi Fresh Elite Makhana | Shahi Dana | Organic Fox Nuts | Made for Premium Tastes (1 x 1 kg)", sku: "KOSHI-F-MAKHANA-1000G", mrp: 2100, price: 1463, grams: 1000, stock: 1000 },
+] as const;
+
+const importedListings: Product[] = FLIPKART_MAKHANA_LISTINGS.map((listing) => ({
+  slug: `flipkart-${listing.sku.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
+  name: listing.name,
+  subtitle: `Seller SKU: ${listing.sku}`,
+  category: "makhana",
+  description: listing.name,
+  nutritionalInfo: { calories: "Not provided", protein: "Not provided", fat: "Not provided", fiber: "Not provided" },
+  sourcing: "Manufacturer: RENUKA Enterprises, Katihar, Bihar, India.",
+  images: ["/hero-makhana-bowl.jpg"],
+  rating: 0,
+  reviewsCount: 0,
+  badges: [],
+  variants: [{ id: listing.sku, weight: `${listing.grams}g`, weightGrams: listing.grams, price: listing.price, originalPrice: listing.mrp, inStock: listing.stock > 0 }],
+}));
+
 export const PRODUCTS: Product[] = [
   {
     slug: "premium-raw-makhana",
@@ -89,7 +130,8 @@ export const PRODUCTS: Product[] = [
       { id: "roasted-150", weight: "150g", weightGrams: 150, price: 349, originalPrice: 399, inStock: true },
       { id: "roasted-300", weight: "300g", weightGrams: 300, price: 629, originalPrice: 749, inStock: true }
     ]
-  }
+  },
+  ...importedListings,
 ];
 
 export type Products = typeof PRODUCTS;

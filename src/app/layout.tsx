@@ -22,6 +22,11 @@ import { Toaster } from "@/components/ui/toast";
 export const metadata: Metadata = {
   title: "Koshi Fresh | Premium Healthy Foods & Organic Makhana",
   description: "Sourced sustainably straight from the wetlands of Mithila, Bihar. Premium Raw and Roasted Makhana, Dry Fruits, Seeds, and organic superfoods.",
+  icons: {
+    icon: "/favicon-icon.png",
+    shortcut: "/favicon-icon.png",
+    apple: "/favicon-icon.png",
+  },
 };
 
 export default function RootLayout({

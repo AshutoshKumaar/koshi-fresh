@@ -179,8 +179,10 @@ export default function CheckoutPage() {
           courierId: selectedDelivery.courierId,
         }),
       });
-      const result = await response.json();
-      if (!response.ok || !result.success) throw new Error("We couldn’t save your order. Your cart is still here—please try again.");
+      const result = await response.json().catch(() => null);
+      if (!response.ok || !result?.success) {
+        throw new Error(typeof result?.message === "string" ? result.message : "We couldn’t save your order. Your cart is still here—please try again.");
+      }
       setOrderId(result.orderId);
       setOrderTotal(result.total);
       setOrderCreatedAt(result.createdAt ?? new Date().toISOString());
@@ -188,8 +190,12 @@ export default function CheckoutPage() {
       setIsOrderPlaced(true);
       clearCart();
       toast({ title: "Order Created", description: `Order ${result.orderId} has been received.` });
-    } catch {
-      toast({ title: "Could Not Place Order", description: "We couldn’t save your order. Your cart is still here—please try again.", variant: "error" });
+    } catch (error) {
+      toast({
+        title: "Could Not Place Order",
+        description: error instanceof Error ? error.message : "We couldn’t save your order. Your cart is still here—please try again.",
+        variant: "error",
+      });
     } finally {
       setIsSubmitting(false);
     }

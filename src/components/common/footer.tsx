@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ShieldCheck, Award, Heart } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -17,8 +18,14 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-12 mb-16">
           {/* Column 1: Brand Info & Mission */}
           <div className="lg:col-span-6 space-y-5">
-            <Link href="/" className="font-serif text-3xl text-white font-bold tracking-tight inline-block hover:text-gold-light transition-colors">
-              Koshi Fresh
+            <Link href="/" aria-label="Koshi Fresh home" className="block w-full max-w-[340px] overflow-hidden rounded-xl">
+              <Image
+                src="/koshi-fresh-footer-logo.png"
+                alt="Koshi Fresh — Bihar’s Premium Makhana"
+                width={1536}
+                height={1024}
+                className="h-auto w-full object-contain"
+              />
             </Link>
             <p className="text-sm font-light text-ivory/80 leading-relaxed max-w-md">
               Sourcing the finest 9mm+ jumbo grade raw and roasted foxnuts directly from wetland farming cooperatives in Mithilanchal, Bihar. Bringing pure, chemical-free superfoods straight to your doorstep.
