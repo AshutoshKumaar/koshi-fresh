@@ -114,13 +114,14 @@ export default function ProductDetailPage() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs uppercase tracking-widest font-sans font-bold text-forest">
-                    {product.category}
+                    {product.category === "flour" ? "Flour" : product.category === "chocolate" ? "Chocolate" : product.category === "dry-fruits" ? "Dry Fruits" : "Makhana"}
                   </span>
                   <Rating rating={product.rating} reviewsCount={product.reviewsCount} />
                 </div>
                 <h1 className="font-serif text-2xl sm:text-4xl font-bold text-obsidian tracking-tight mb-2">
                   {product.name}
                 </h1>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-forest">Brand: {product.brand} <span className="font-normal normal-case tracking-normal text-stone">· Sold by {product.seller}</span></p>
                 <p className="text-stone text-sm sm:text-base font-light leading-relaxed">
                   {product.subtitle}
                 </p>

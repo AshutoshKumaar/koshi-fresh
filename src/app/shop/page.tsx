@@ -6,27 +6,34 @@ import { PRODUCTS } from "@/data/products";
 import { ProductCardGrid } from "@/features/shop/components/product-card-grid";
 import { Sparkles, Filter, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { MAKHANA_BRANDS } from "@/types/shop";
 // import Link from "next/link"; // removed unused import
 
 export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = React.useState<string>("all");
+  const [selectedBrand, setSelectedBrand] = React.useState<string>("all");
   const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [sortBy, setSortBy] = React.useState<string>("featured");
 
   const categories = [
-    { id: "all", label: "All Products" },
-    { id: "makhana", label: "Foxnuts & Makhana" },
-    { id: "dry-fruits", label: "Premium Dry Fruits" },
+    { id: "all", label: "All Categories" },
+    { id: "makhana", label: "Makhana" },
+    { id: "flour", label: "Flour & Powder" },
+    { id: "chocolate", label: "Chocolate" },
+    { id: "dry-fruits", label: "Nuts and Dry Fruits" },
   ];
+  const brands = ["all", ...MAKHANA_BRANDS];
 
   const filteredProducts = PRODUCTS.filter((product) => {
     const matchesCategory =
       selectedCategory === "all" || product.category === selectedCategory;
+    const matchesBrand = selectedBrand === "all" || product.brand === selectedBrand;
     const matchesSearch =
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesCategory && matchesBrand && matchesSearch;
   });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -43,13 +50,13 @@ export default function ShopPage() {
         <Container>
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold-light text-xs font-sans font-bold uppercase tracking-wider mb-3">
-              <Sparkles className="h-3.5 w-3.5" /> 100% Certified Organic Catalog
+              <Sparkles className="h-3.5 w-3.5" /> Renuka Enterprises Catalogue
             </span>
             <h1 className="font-serif text-2xl sm:text-5xl font-bold text-white tracking-tight mb-2 md:mb-4">
-              Explore Superfood Collections
+              Explore Our Brands & Products
             </h1>
             <p className="text-ivory/80 text-xs sm:text-base font-light leading-relaxed">
-              Sourced directly from certified wetland farming cooperatives in Mithilanchal, Bihar. Hand-sorted 9mm+ jumbo foxnuts & premium dry fruits.
+              Shop Koshi Fresh Makhana, Madhur Phool Makhana and Krishna Phool Makhana, alongside flour, homemade chocolate, nuts and dry fruits.
             </p>
           </div>
         </Container>
@@ -64,7 +71,7 @@ export default function ShopPage() {
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone/60" />
               <Input
                 type="text"
-                placeholder="Search raw makhana, cashews, almonds..."
+              placeholder="Search products or brands..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 h-12 bg-sand/20 border-sand/60 text-obsidian rounded-xl text-sm"
@@ -104,6 +111,15 @@ export default function ShopPage() {
               </button>
             ))}
           </div>
+
+          <div className="flex flex-wrap items-center gap-2 border-t border-sand/40 pt-3">
+            <span className="mr-1 text-xs font-semibold uppercase tracking-wider text-stone">Brand:</span>
+            {brands.map((brand) => (
+              <button key={brand} type="button" onClick={() => setSelectedBrand(brand)} aria-pressed={selectedBrand === brand} className={`min-h-10 rounded-xl px-3 py-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest ${selectedBrand === brand ? "bg-forest text-white" : "bg-sand/30 text-charcoal hover:bg-sand/60"}`}>
+                {brand === "all" ? "All brands" : brand}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Product Grid */}
@@ -124,6 +140,7 @@ export default function ShopPage() {
               onClick={() => {
                 setSearchQuery("");
                 setSelectedCategory("all");
+                setSelectedBrand("all");
               }}
               className="px-5 py-2.5 bg-forest text-white rounded-xl text-xs font-sans font-bold hover:bg-forest-light transition-colors"
             >

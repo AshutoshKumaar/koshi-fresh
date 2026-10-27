@@ -26,15 +26,43 @@ const FLIPKART_MAKHANA_LISTINGS = [
   { name: "Koshi Fresh Elite Makhana | Shahi Dana | Organic Fox Nuts | Made for Premium Tastes (1 x 1 kg)", sku: "KOSHI-F-MAKHANA-1000G", mrp: 2100, price: 1463, grams: 1000, stock: 1000 },
 ] as const;
 
+const LISTING_IMAGES: Record<string, string> = {
+  "KF-3SUTA-RAW-500G": "/product-makhana-small.webp",
+  "KF-3SUTA-RAW-200G": "/product-makhana-small.webp",
+  "KOSHI-MAKHANA-500X2-1KG": "/product-makhana-combo.webp",
+  "KFM-POWDER-400G": "/product-makhana-powder.webp",
+  "KOSHI-F-MAKHANA-500": "/product-makhana-jumbo.webp",
+  "MAKHANA_MEDIUM_1KG_V1": "/product-makhana-medium.webp",
+  "KOSHI-MAKHANA-RAW-200G": "/product-makhana-raw.webp",
+  "MEDIUM-MAKHANA-RAW-2KG": "/product-makhana-medium.webp",
+  "KF-PURE-4-SUTA": "/product-makhana-medium.webp",
+  KOSHIMAKHANARAW500: "/product-makhana-raw.webp",
+  "KF-RAW-100X2": "/product-makhana-combo.webp",
+  "KFM-MEDIUM-250G": "/product-makhana-medium.webp",
+  MEDIUM_MAKHANA_500G: "/product-makhana-medium.webp",
+  "KF-RAW-200X2": "/product-makhana-combo.webp",
+  "KOSHI-MAKHANA-100G": "/product-makhana-raw.webp",
+  MAKHANA001: "/product-makhana-raw.webp",
+  KOSHI_PREMIUM_MAKHANA_1KG_BIG: "/product-makhana-jumbo.webp",
+  "MAKHANA-250G-COMBO": "/product-makhana-combo.webp",
+  "KF-6SUTA-RAW-1KG": "/product-makhana-jumbo.webp",
+  "PREMIUM-MAKHANA-RAW-2KG": "/product-makhana-combo.webp",
+  "KOSHI-MAKHANA-RAW-50G": "/product-makhana-raw.webp",
+  MAKHANA001SH: "/product-makhana-raw.webp",
+  "KOSHI-F-MAKHANA-1000G": "/product-makhana-jumbo.webp",
+};
+
 const importedListings: Product[] = FLIPKART_MAKHANA_LISTINGS.map((listing) => ({
   slug: `flipkart-${listing.sku.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`,
   name: listing.name,
   subtitle: `Seller SKU: ${listing.sku}`,
-  category: "makhana",
+  brand: "Koshi Fresh",
+  seller: "Renuka Enterprises",
+  category: listing.sku === "KFM-POWDER-400G" ? "flour" : "makhana",
   description: listing.name,
   nutritionalInfo: { calories: "Not provided", protein: "Not provided", fat: "Not provided", fiber: "Not provided" },
   sourcing: "Manufacturer: RENUKA Enterprises, Katihar, Bihar, India.",
-  images: ["/hero-makhana-bowl.jpg"],
+  images: [LISTING_IMAGES[listing.sku] ?? "/product-makhana-raw.webp"],
   rating: 0,
   reviewsCount: 0,
   badges: [],
@@ -46,6 +74,8 @@ export const PRODUCTS: Product[] = [
     slug: "premium-raw-makhana",
     name: "Premium Raw Makhana",
     subtitle: "Organic sun-dried Foxnuts sourced straight from Mithila",
+    brand: "Koshi Fresh",
+    seller: "Renuka Enterprises",
     category: "makhana",
     description: "Handpicked, naturally harvested, and sun-dried raw foxnuts of the highest size grade (9mm+). High in antioxidants, calcium, and protein, these raw makhanas are perfect for home roasting.",
     nutritionalInfo: {
@@ -55,7 +85,7 @@ export const PRODUCTS: Product[] = [
       fiber: "14.5 g"
     },
     sourcing: "Harvested sustainably by local farming cooperatives in Madhubani, Bihar.",
-    images: ["/hero-makhana-bowl.jpg"],
+    images: ["/product-makhana-raw.webp"],
     rating: 4.9,
     reviewsCount: 124,
     badges: ["Best Seller", "9mm+ Jumbo"],
@@ -69,6 +99,8 @@ export const PRODUCTS: Product[] = [
     slug: "roasted-salted-cashews",
     name: "Roasted Whole Cashews",
     subtitle: "Slow-roasted jumbo cashews with pink Himalayan sea salt",
+    brand: "Koshi Fresh",
+    seller: "Renuka Enterprises",
     category: "dry-fruits",
     description: "Hand-sorted jumbo W240 grade whole cashew nuts slow roasted to golden perfection with a light pinch of Himalayan pink sea salt.",
     nutritionalInfo: {
@@ -78,7 +110,7 @@ export const PRODUCTS: Product[] = [
       fiber: "3.3 g"
     },
     sourcing: "Handpicked from organic cashew groves in Mangalore, India.",
-    images: ["/roasted-cashews-studio.jpg"],
+    images: ["/product-cashews.webp"],
     rating: 4.9,
     reviewsCount: 142,
     badges: ["AI Studio Quality", "W240 Jumbo"],
@@ -91,6 +123,8 @@ export const PRODUCTS: Product[] = [
     slug: "premium-california-almonds",
     name: "Premium California Almonds",
     subtitle: "Jumbo sized crunch almonds, rich in Vitamin E & antioxidants",
+    brand: "Koshi Fresh",
+    seller: "Renuka Enterprises",
     category: "dry-fruits",
     description: "Hand-sorted jumbo sized California almonds, packed raw to preserve nutritional density. Rich in heart-healthy monounsaturated fats, protein, and dietary fiber.",
     nutritionalInfo: {
@@ -100,7 +134,7 @@ export const PRODUCTS: Product[] = [
       fiber: "12.5 g"
     },
     sourcing: "Imported directly from certified growers in California, USA.",
-    images: ["/almonds-seeds-collection.jpg"],
+    images: ["/product-almonds.webp"],
     rating: 4.8,
     reviewsCount: 204,
     badges: ["High Fiber", "100% Natural"],
@@ -113,6 +147,8 @@ export const PRODUCTS: Product[] = [
     slug: "premium-roasted-makhana",
     name: "Premium Roasted Makhana",
     subtitle: "Slow-roasted crispy foxnuts in organic cold-pressed A2 ghee",
+    brand: "Koshi Fresh",
+    seller: "Renuka Enterprises",
     category: "makhana",
     description: "Slow-roasted to crispy perfection in pure A2 cow ghee, flavored lightly with sea salt and black pepper. A healthy, crunchy snack that satisfies cravings.",
     nutritionalInfo: {
@@ -122,7 +158,7 @@ export const PRODUCTS: Product[] = [
       fiber: "12.8 g"
     },
     sourcing: "Roasted and packed under hygienic standards in Patna, Bihar.",
-    images: ["/hero-gourmet-spices-bg.jpg"],
+    images: ["/product-makhana-roasted.webp"],
     rating: 4.9,
     reviewsCount: 86,
     badges: ["Ghee Roasted", "Clean Label"],

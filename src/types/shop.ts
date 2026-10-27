@@ -8,11 +8,16 @@ export interface ProductVariant {
   inStock: boolean;
 }
 
+export const MAKHANA_BRANDS = ["Koshi Fresh", "Madhur Phool Makhana", "Krishna Phool Makhana"] as const;
+
 export interface Product {
   slug: string;
   name: string;
   subtitle: string;
-  category: 'makhana' | 'dry-fruits' | 'nuts' | 'seeds' | 'snacks' | 'superfoods' | 'spices' | 'gifts';
+  /** Customer-facing product brand; the seller/manufacturer can own several brands. */
+  brand: string;
+  seller: 'Renuka Enterprises';
+  category: 'makhana' | 'flour' | 'chocolate' | 'dry-fruits' | 'nuts' | 'seeds' | 'snacks' | 'superfoods' | 'spices' | 'gifts';
   description: string;
   nutritionalInfo: {
     calories: string;
