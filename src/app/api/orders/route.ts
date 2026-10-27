@@ -6,6 +6,7 @@ import { authenticatedUid, isoDate, OrderAccessError } from "@/lib/order-access"
 import { getDiscount, getShipmentWeightKg, isPaymentMethod, validateCart } from "@/lib/checkout";
 import { getCourierRates, ShiprocketError } from "@/lib/shiprocket";
 import { normalizeOrderStatus } from "@/lib/order-status";
+import { validateCheckoutField } from "@/lib/checkout-validation";
 
 export const runtime = "nodejs";
 
@@ -68,16 +69,30 @@ export async function POST(request: Request) {
     const customer = input.customer as Record<string, unknown> | null;
     const address = input.address as Record<string, unknown> | null;
     if (!customer || !address) return errorResponse("Enter your delivery details to continue.");
+    if ((customer.businessName !== undefined && typeof customer.businessName !== "string") || (customer.gstin !== undefined && typeof customer.gstin !== "string")) return errorResponse("Business invoice details are invalid.");
+    if ((address.addressLine2 !== undefined && typeof address.addressLine2 !== "string") || (address.landmark !== undefined && typeof address.landmark !== "string")) return errorResponse("Your delivery address details are invalid.");
     const name = typeof customer.name === "string" ? customer.name.trim() : "";
     const phone = typeof customer.phone === "string" ? customer.phone.replace(/[\s()-]/g, "") : "";
     const addressLine1 = typeof address.addressLine1 === "string" ? address.addressLine1.trim() : "";
+    const addressLine2 = typeof address.addressLine2 === "string" ? address.addressLine2.trim() : "";
+    const landmark = typeof address.landmark === "string" ? address.landmark.trim() : "";
     const city = typeof address.city === "string" ? address.city.trim() : "";
     const state = typeof address.state === "string" ? address.state.trim() : "";
     const pincode = typeof address.pincode === "string" ? address.pincode.trim() : "";
-    if (name.length < 2 || name.length > 100 || !/^\+?\d{10,13}$/.test(phone) || addressLine1.length < 5 || addressLine1.length > 200 || city.length < 2 || city.length > 80 || state.length < 2 || state.length > 80 || !/^\d{6}$/.test(pincode)) {
-      return errorResponse("Check your name, phone, address, city, state, and six-digit pincode.");
+    const businessName = typeof customer.businessName === "string" ? customer.businessName.trim() : "";
+    const gstin = typeof customer.gstin === "string" ? customer.gstin.trim().replace(/\s/g, "").toUpperCase() : "";
+    const businessOrder = Boolean(businessName || gstin);
+    if (
+      validateCheckoutField("name", name) || validateCheckoutField("phone", phone) ||
+      validateCheckoutField("streetAddress", addressLine1) || validateCheckoutField("locality", addressLine2) ||
+      validateCheckoutField("landmark", landmark) || validateCheckoutField("city", city) ||
+      validateCheckoutField("state", state) || validateCheckoutField("pincode", pincode) ||
+      validateCheckoutField("businessName", businessName, businessOrder) || validateCheckoutField("gstin", gstin, businessOrder)
+    ) {
+      return errorResponse("Check your contact, delivery address, and business invoice details.");
     }
     if (!isPaymentMethod(input.paymentMethod)) return errorResponse("Select a valid payment method.");
+    if (input.couponCode !== undefined && (typeof input.couponCode !== "string" || input.couponCode.length > 24)) return errorResponse("This coupon code is invalid.");
     let items;
     try {
       items = validateCart(input.cartItems);
@@ -128,9 +143,9 @@ export async function POST(request: Request) {
     const orderData = {
       orderId,
       userId: decoded.uid,
-      customer: { name, email: decoded.email || "", phone },
+      customer: { name, email: decoded.email || "", phone, businessName: businessName || null, gstin: gstin || null },
       items: items.map(({ slug, variantId, name: itemName, weight, price, quantity, image }) => ({ slug, variantId, sku: variantId, name: itemName, weight, price, quantity, image })),
-      address: { addressLine1, city, state, pincode, country: "India" },
+      address: { addressLine1, addressLine2, landmark, city, state, pincode, country: "India" },
       pricing: { subtotal, shipping: selectedRate.shippingCharge, discount: discount.amount, total },
       couponCode: discount.code || null,
       payment: { method: input.paymentMethod, status: "pending" },
@@ -208,6 +223,13 @@ export async function GET(request: Request) {
       }) : [];
       return {
         orderId: typeof data.orderId === "string" ? data.orderId : doc.id,
+        customer: (() => {
+          const customer = data.customer && typeof data.customer === "object" ? data.customer as Record<string, unknown> : {};
+          return {
+            businessName: typeof customer.businessName === "string" ? customer.businessName : null,
+            gstin: typeof customer.gstin === "string" ? customer.gstin : null,
+          };
+        })(),
         createdAt: isoDate(data.createdAt), orderStatus: normalizeOrderStatus(data.orderStatus ?? shipping.status),
         statusHistory: Array.isArray(data.statusHistory) ? data.statusHistory.flatMap((entry) => {
           if (!entry || typeof entry !== "object") return [];

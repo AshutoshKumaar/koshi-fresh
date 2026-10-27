@@ -73,11 +73,11 @@ export function Footer() {
         <Separator className="bg-white/15 mb-8" />
 
         {/* Footer Bottom Rights */}
-        <div className="flex flex-col sm:flex-row justify-between items-center text-xs font-light text-ivory/60 gap-4">
+        <div className="flex flex-col items-center justify-between gap-4 text-center text-xs font-light text-ivory/60 sm:flex-row sm:text-left">
           <span>&copy; {new Date().getFullYear()} Koshi Fresh. All rights reserved.</span>
-          <div className="flex items-center gap-6">
-            <span>Harvested in Mithilanchal, Bihar</span>
-            <span className="flex items-center gap-1 text-gold-light font-medium">
+          <div className="flex w-full flex-col items-center gap-2 sm:w-auto sm:flex-row sm:gap-6">
+            <span className="text-center">Harvested in Mithilanchal, Bihar</span>
+            <span className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-center font-medium text-gold-light">
               Crafted with <Heart className="h-3 w-3 fill-gold text-gold" /> for Health
             </span>
           </div>

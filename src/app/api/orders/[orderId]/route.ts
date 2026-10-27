@@ -13,6 +13,7 @@ export async function GET(request: Request, context: { params: Promise<{ orderId
     const shiprocket = record(data.shiprocket);
     const payment = record(data.payment);
     const pricing = record(data.pricing);
+    const customer = record(data.customer);
     const address = record(data.address);
     const items = Array.isArray(data.items) ? data.items.map((item) => {
       const row = record(item);
@@ -20,6 +21,10 @@ export async function GET(request: Request, context: { params: Promise<{ orderId
     }) : [];
     return NextResponse.json({ success: true, order: {
       orderId: typeof data.orderId === "string" ? data.orderId : orderId,
+      customer: {
+        businessName: typeof customer.businessName === "string" ? customer.businessName : null,
+        gstin: typeof customer.gstin === "string" ? customer.gstin : null,
+      },
       createdAt: isoDate(data.createdAt), orderStatus: normalizeOrderStatus(data.orderStatus ?? shipping.status),
       statusHistory: Array.isArray(data.statusHistory) ? data.statusHistory.flatMap((entry) => {
         const event = record(entry);
@@ -29,7 +34,7 @@ export async function GET(request: Request, context: { params: Promise<{ orderId
       items,
       pricing: { subtotal: Number(pricing.subtotal) || 0, shipping: Number(pricing.shipping) || 0, discount: Number(pricing.discount) || 0, total: Number(pricing.total) || 0 },
       payment: { method: typeof payment.method === "string" ? payment.method : "", status: typeof payment.status === "string" ? payment.status : "pending" },
-      address: { addressLine1: typeof address.addressLine1 === "string" ? address.addressLine1 : "", addressLine2: typeof address.addressLine2 === "string" ? address.addressLine2 : "", city: typeof address.city === "string" ? address.city : "", state: typeof address.state === "string" ? address.state : "", pincode: typeof address.pincode === "string" ? address.pincode : "", country: typeof address.country === "string" ? address.country : "India" },
+      address: { addressLine1: typeof address.addressLine1 === "string" ? address.addressLine1 : "", addressLine2: typeof address.addressLine2 === "string" ? address.addressLine2 : "", landmark: typeof address.landmark === "string" ? address.landmark : "", city: typeof address.city === "string" ? address.city : "", state: typeof address.state === "string" ? address.state : "", pincode: typeof address.pincode === "string" ? address.pincode : "", country: typeof address.country === "string" ? address.country : "India" },
       shipping: {
         provider: typeof shipping.provider === "string" ? shipping.provider : null,
         courier: typeof shipping.courier === "string" ? shipping.courier : null,

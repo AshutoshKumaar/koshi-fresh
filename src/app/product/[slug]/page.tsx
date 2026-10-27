@@ -238,7 +238,17 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </Container>
-      <div className="fixed inset-x-0 z-30 border-t border-sand/70 bg-white/95 px-3 py-3 shadow-[0_-8px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl md:hidden bottom-[calc(4.4rem+env(safe-area-inset-bottom))]"><div className="mx-auto flex max-w-lg items-center gap-3"><div className="min-w-0 shrink-0"><p className="text-[10px] text-stone">{selectedVariant.weight}</p><p className="font-serif text-lg font-bold text-forest">₹{selectedVariant.price}</p></div><Button onClick={handleBuyNow} className="h-12 min-w-0 flex-1 rounded-xl bg-forest text-sm font-bold text-white">Buy Now</Button></div></div>
+      <div className="fixed inset-x-0 z-30 border-t border-sand/70 bg-white/95 px-3 py-3 shadow-[0_-8px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl md:hidden bottom-[calc(4.4rem+env(safe-area-inset-bottom))]">
+        <div className="mx-auto max-w-lg">
+          <div className="flex items-center gap-3">
+            <div className="min-w-0 shrink-0">
+              <p className="text-[10px] text-stone">{selectedVariant.weight}</p>
+              <p className="font-serif text-lg font-bold text-forest">₹{selectedVariant.price}</p>
+            </div>
+            <Button onClick={handleBuyNow} className="h-12 min-w-0 flex-1 rounded-xl bg-forest text-sm font-bold text-white">Buy Now</Button>
+          </div>
+</div>
+      </div>
     </div>
   );
 }

@@ -36,6 +36,8 @@ export function adminOrderView(orderId: string, data: Record<string, unknown>) {
       name: typeof customer.name === "string" ? customer.name : "",
       email: typeof customer.email === "string" ? customer.email : "",
       phone: typeof customer.phone === "string" ? customer.phone : "",
+      businessName: typeof customer.businessName === "string" ? customer.businessName : null,
+      gstin: typeof customer.gstin === "string" ? customer.gstin : null,
     },
     items,
     pricing: { subtotal: Number(pricing.subtotal) || 0, shipping: Number(pricing.shipping) || 0, discount: Number(pricing.discount) || 0, total: Number(pricing.total) || 0 },
@@ -43,6 +45,7 @@ export function adminOrderView(orderId: string, data: Record<string, unknown>) {
     address: {
       addressLine1: typeof address.addressLine1 === "string" ? address.addressLine1 : "",
       addressLine2: typeof address.addressLine2 === "string" ? address.addressLine2 : "",
+      landmark: typeof address.landmark === "string" ? address.landmark : "",
       city: typeof address.city === "string" ? address.city : "",
       state: typeof address.state === "string" ? address.state : "",
       pincode: typeof address.pincode === "string" ? address.pincode : "",

@@ -10,12 +10,17 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, Dr
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, ShoppingBag, Heart, Trash2, Minus, Plus, X } from "lucide-react";
+import { Search, ShoppingBag, Heart, Trash2, Minus, Plus, X, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { PRODUCTS } from "@/data/products";
 import { MobileBottomNav } from "@/components/common/mobile-bottom-nav";
 import { StorefrontLoading } from "@/components/common/storefront-loading";
+
+const SEARCHABLE_PRODUCTS = PRODUCTS.map((product) => ({
+  product,
+  searchText: `${product.name} ${product.brand} ${product.subtitle} ${product.description}`.toLowerCase(),
+}));
 
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -38,6 +43,13 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   } = useShop();
 
   const [searchQuery, setSearchQuery] = React.useState("");
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
+  const searchResults = React.useMemo(
+    () => normalizedSearchQuery
+      ? SEARCHABLE_PRODUCTS.filter(({ searchText }) => searchText.includes(normalizedSearchQuery)).slice(0, 6)
+      : [],
+    [normalizedSearchQuery],
+  );
 
   React.useEffect(() => {
     const handleNavigationClick = (event: MouseEvent) => {
@@ -78,7 +90,7 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       <Navbar />
 
       {/* Main Page Area */}
-      <main className="flex-grow pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
+      <main className="flex-grow pb-0">
         {isNavigating ? <StorefrontLoading label="Taking you to your next fresh find…" /> : children}
       </main>
 
@@ -87,46 +99,47 @@ export function LayoutWrapper({ children }: { children: React.ReactNode }) {
       <MobileBottomNav />
 
       {/* ================= GLOBAL SEARCH OVERLAY ================= */}
-      <Dialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
-        <DialogContent className="max-h-[78dvh] w-[calc(100%-1rem)] max-w-xl overflow-y-auto rounded-3xl p-4 sm:p-6 max-sm:top-auto max-sm:bottom-[calc(4.75rem+env(safe-area-inset-bottom))] max-sm:translate-y-0">
-          <DialogHeader>
-            <DialogTitle>Search Koshi Fresh</DialogTitle>
-            <DialogDescription>
-              Find premium foxnuts, dry fruits, seeds, and healthy snacks.
+      <Dialog open={isSearchOpen} onOpenChange={(open) => { setIsSearchOpen(open); if (!open) setSearchQuery(""); }}>
+        <DialogContent className="max-h-[calc(100dvh-1rem)] w-[calc(100%-1rem)] max-w-xl overflow-hidden rounded-3xl border-sand/80 bg-white p-4 shadow-2xl sm:p-6 max-sm:top-auto max-sm:bottom-[calc(4.75rem+env(safe-area-inset-bottom))] max-sm:translate-y-0">
+          <DialogHeader className="pr-8 text-left">
+            <DialogTitle className="text-xl font-bold text-forest sm:text-2xl">Find your fresh favorite</DialogTitle>
+            <DialogDescription className="text-xs leading-relaxed sm:text-sm">
+              Search makhana, dry fruits, and healthy snacks.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 py-3">
+          <div className="space-y-4 py-2">
             <div className="relative flex items-center">
-              <Search className="absolute left-3.5 h-4 w-4 text-stone/60" />
+              <Search className="pointer-events-none absolute left-3.5 h-4 w-4 text-forest/70" />
               <Input
                 autoFocus
-                placeholder="Search for roasted makhana, flax seeds..."
+                aria-label="Search products"
+                placeholder="Try “roasted makhana” or “almonds”"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-12 pl-10 pr-11 text-base"
+                className="h-12 rounded-2xl border-sand bg-ivory/70 pl-10 pr-11 text-base shadow-inner focus-visible:ring-forest"
               />
-              {searchQuery && <button type="button" onClick={() => setSearchQuery("")} className="absolute right-1 flex h-10 w-10 items-center justify-center rounded-full text-stone focus-visible:ring-2 focus-visible:ring-forest" aria-label="Clear search"><X className="h-4 w-4" /></button>}
+              {searchQuery && <button type="button" onClick={() => setSearchQuery("")} className="absolute right-1 flex h-10 w-10 items-center justify-center rounded-full text-stone hover:bg-sand/50 focus-visible:ring-2 focus-visible:ring-forest" aria-label="Clear search"><X className="h-4 w-4" /></button>}
             </div>
 
-            {searchQuery.trim() && <div className="space-y-1" aria-live="polite">{PRODUCTS.filter((product) => `${product.name} ${product.subtitle} ${product.description}`.toLowerCase().includes(searchQuery.trim().toLowerCase())).slice(0, 6).map((product) => <Link key={product.slug} href={`/product/${product.slug}`} onClick={() => setIsSearchOpen(false)} className="flex min-h-14 items-center gap-3 rounded-xl p-2 hover:bg-sand/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest"><span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-sand/30">{product.images[0].startsWith("/") ? <Image src={product.images[0]} alt="" fill sizes="44px" className="object-cover" /> : <span className="grid h-full place-items-center text-xl">{product.images[0]}</span>}</span><span className="min-w-0"><span className="block truncate text-sm font-semibold text-obsidian">{product.name}</span><span className="block truncate text-xs text-stone">{product.subtitle}</span></span></Link>)}{!PRODUCTS.some((product) => `${product.name} ${product.subtitle} ${product.description}`.toLowerCase().includes(searchQuery.trim().toLowerCase())) && <p className="px-2 py-3 text-sm text-stone">No matching products. Try “makhana” or “almonds”.</p>}</div>}
-
-            {/* Mock Popular Searches */}
-            <div className="space-y-2">
-              <span className="text-xs uppercase tracking-wider text-stone font-semibold block">
-                Trending Searches
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {["Roasted Makhana", "Raw Foxnuts", "Dry Fruits", "Seeds", "Organic Spices"].map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => setSearchQuery(tag)}
-                    className="text-xs font-sans bg-sand/40 border border-sand hover:bg-sand hover:text-forest px-3 py-1.5 rounded-full transition-all cursor-pointer"
-                  >
-                    {tag}
-                  </button>
-                ))}
+            {normalizedSearchQuery ? (
+              <div className="max-h-[42dvh] space-y-1 overflow-y-auto overscroll-contain" aria-live="polite">
+                <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-wider text-stone">{searchResults.length ? `${searchResults.length} matching ${searchResults.length === 1 ? "product" : "products"}` : "No exact matches"}</p>
+                {searchResults.map(({ product }) => <Link key={product.slug} href={`/product/${product.slug}`} onClick={() => setIsSearchOpen(false)} className="flex min-h-16 items-center gap-3 rounded-2xl border border-transparent p-2 transition-colors hover:border-sand hover:bg-ivory/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest"><span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-sand/30">{product.images[0].startsWith("/") ? <Image src={product.images[0]} alt="" fill sizes="48px" className="object-contain p-1" /> : <span className="grid h-full place-items-center text-xl">{product.images[0]}</span>}</span><span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold text-obsidian">{product.name}</span><span className="block truncate text-xs text-stone">{product.brand} · {product.subtitle}</span></span><ArrowRight className="mr-1 h-4 w-4 shrink-0 text-forest" /></Link>)}
+                {!searchResults.length && <p className="rounded-xl bg-ivory/70 px-3 py-3 text-sm text-stone">Try a broader search, such as “makhana”, “dry fruits”, or “nuts”.</p>}
               </div>
-            </div>
+            ) : (
+
+              <div className="space-y-2">
+                <span className="block text-[11px] font-semibold uppercase tracking-wider text-stone">Popular searches</span>
+                <div className="flex flex-wrap gap-2">
+                  {["Roasted Makhana", "Raw Foxnuts", "Dry Fruits", "Almonds", "Cashews"].map((tag) => (
+                    <button key={tag} type="button" onClick={() => setSearchQuery(tag)} className="min-h-10 rounded-full border border-sand bg-ivory px-3.5 text-xs font-semibold text-charcoal transition-colors hover:border-forest/40 hover:bg-forest hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest">
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>

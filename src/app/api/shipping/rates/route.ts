@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getDiscount, getShipmentWeightKg, isPaymentMethod, validateCart } from "@/lib/checkout";
 import { getCourierRates, ShiprocketError } from "@/lib/shiprocket";
+import { validateCheckoutField } from "@/lib/checkout-validation";
 
 export const runtime = "nodejs";
 
@@ -9,10 +10,11 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => null);
     if (!body || typeof body !== "object") return NextResponse.json({ success: false, message: "Invalid request." }, { status: 400 });
     const input = body as Record<string, unknown>;
-    if (typeof input.pincode !== "string" || !/^\d{6}$/.test(input.pincode)) {
+    if (typeof input.pincode !== "string" || validateCheckoutField("pincode", input.pincode)) {
       return NextResponse.json({ success: false, message: "Enter a valid six-digit pincode." }, { status: 400 });
     }
     if (!isPaymentMethod(input.paymentMethod)) return NextResponse.json({ success: false, message: "Select a valid payment method." }, { status: 400 });
+    if (input.couponCode !== undefined && (typeof input.couponCode !== "string" || input.couponCode.length > 24)) return NextResponse.json({ success: false, message: "This coupon code is invalid." }, { status: 400 });
     const items = validateCart(input.cartItems);
     const weightKg = getShipmentWeightKg(items);
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);

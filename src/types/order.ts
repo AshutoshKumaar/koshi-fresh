@@ -14,6 +14,7 @@ export interface OrderItem {
 export interface OrderAddress {
   addressLine1: string;
   addressLine2?: string;
+  landmark?: string;
   city: string;
   state: string;
   pincode: string;
@@ -65,6 +66,8 @@ export interface Order {
     name: string;
     email: string;
     phone: string;
+    businessName?: string | null;
+    gstin?: string | null;
   };
   items: OrderItem[];
   address: OrderAddress;

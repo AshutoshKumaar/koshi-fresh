@@ -80,7 +80,7 @@ export function CategoriesGrid() {
   const visibleCategories = CATEGORIES.filter((category) => activeFilter === "all" || category.group === activeFilter);
 
   return (
-    <section id="categories" className="w-full border-t border-sand/50 bg-white py-8 md:py-24">
+    <section id="categories" className="w-full border-t border-sand/50 bg-ivory py-8 md:bg-white md:py-24">
       <Container>
         <div className="mb-5 flex flex-col items-start justify-between gap-4 md:mb-12 md:gap-6 lg:flex-row lg:items-end">
           <div className="max-w-xl">
@@ -95,7 +95,7 @@ export function CategoriesGrid() {
             </p>
           </div>
 
-          <div className="-mx-4 flex w-[calc(100%+2rem)] snap-x gap-2 overflow-x-auto px-4 pb-2 pt-1 md:mx-0 md:w-auto md:flex-wrap md:overflow-visible md:px-0 md:pb-0">
+          <div className="flex w-full flex-wrap gap-2 pb-1 pt-1 md:w-auto md:pb-0">
             {FILTERS.map((filter) => (
               <button
                 key={filter.id}
@@ -110,7 +110,7 @@ export function CategoriesGrid() {
           </div>
         </div>
 
-        <div className="-mx-4 grid snap-x grid-flow-col auto-cols-[82vw] gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid-flow-row md:auto-cols-auto md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 lg:grid-cols-12">
+        <div className="grid grid-cols-2 gap-1 pb-1 sm:gap-4 md:grid-cols-2 md:gap-6 md:pb-0 lg:grid-cols-12">
           {visibleCategories.map((category) => {
             const itemCount = category.brand
               ? PRODUCTS.filter((product) => product.brand === category.brand).length
@@ -120,28 +120,28 @@ export function CategoriesGrid() {
               <Link
                 key={category.slug}
                 href={`/shop/${category.slug}`}
-                className="group relative block h-[230px] overflow-hidden rounded-2xl border border-sand/60 shadow-premium-md transition-all duration-300 hover:border-forest/40 hover:shadow-2xl sm:h-[300px] md:h-[320px] md:rounded-3xl lg:col-span-4"
+                className="group relative block h-[210px] overflow-hidden rounded-2xl border border-sand/60 shadow-premium-md transition-all duration-300 hover:border-forest/40 hover:shadow-2xl sm:h-[300px] md:h-[320px] md:rounded-3xl lg:col-span-4"
               >
-                <Image src={category.image} alt={category.title} fill sizes="(max-width: 767px) 82vw, (max-width: 1279px) 45vw, 30vw" className="object-cover object-center transition-transform duration-500 md:group-hover:scale-105" />
+                <Image src={category.image} alt={category.title} fill sizes="(max-width: 767px) 46vw, (max-width: 1279px) 45vw, 30vw" className="object-cover object-[60%_center] transition-transform duration-500 md:object-center md:group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-dark/95 via-forest-dark/50 to-black/20 transition-colors duration-500 group-hover:from-forest-dark" />
 
-                <div className="absolute left-3 right-3 top-3 z-10 flex items-center justify-between gap-2 md:left-5 md:right-5 md:top-5">
-                  <span className={`inline-flex items-center rounded-full border px-3.5 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur-md ${category.badgeBg}`}>
+                <div className="absolute left-3 right-3 top-3 z-10 flex flex-col items-start gap-1 md:left-5 md:right-5 md:top-5 md:flex-row md:items-center md:justify-between md:gap-2">
+                  <span className={`inline-flex max-w-full items-center rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide backdrop-blur-md sm:px-3.5 sm:text-xs sm:tracking-wider ${category.badgeBg}`}>
                     {category.tag}
                   </span>
-                  <span className="inline-flex items-center rounded-full border border-white/20 bg-black/40 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur-md">
+                  <span className="inline-flex shrink-0 whitespace-nowrap items-center rounded-full border border-white/20 bg-black/55 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-md sm:px-3 sm:text-[11px] md:ml-auto">
                     {itemCount ? `${itemCount} ${itemCount === 1 ? "Product" : "Products"}` : "Coming Soon"}
                   </span>
                 </div>
 
-                <div className="absolute bottom-4 left-4 right-4 z-10 md:bottom-6 md:left-6 md:right-6">
-                  <div className="flex items-end justify-between gap-4">
-                    <div className="max-w-[80%]">
-                      <h3 className="font-serif text-2xl font-bold leading-tight text-white transition-colors group-hover:text-gold-light sm:text-3xl">{category.title}</h3>
-                      <p className="mt-1.5 line-clamp-2 text-xs font-light leading-relaxed text-white/80">{category.subtitle}</p>
+                <div className="absolute bottom-3 left-3 right-3 z-10 sm:bottom-4 sm:left-4 sm:right-4 md:bottom-6 md:left-6 md:right-6">
+                  <div className="flex items-end justify-between gap-2 sm:gap-4">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-serif text-lg font-bold leading-tight text-white transition-colors group-hover:text-gold-light sm:text-3xl">{category.title}</h3>
+                      <p className="mt-1.5 line-clamp-2 text-xs font-medium leading-snug text-white/90 sm:mt-1.5 sm:font-light sm:leading-relaxed">{category.subtitle}</p>
                     </div>
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/30 bg-white/15 text-white shadow-premium-sm backdrop-blur-md transition-all duration-300 group-hover:border-gold group-hover:bg-gold group-hover:text-obsidian">
-                      <ArrowUpRight className="h-6 w-6 stroke-[2]" />
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/30 bg-white/15 text-white shadow-premium-sm backdrop-blur-md transition-all duration-300 group-hover:border-gold group-hover:bg-gold group-hover:text-obsidian sm:h-12 sm:w-12 sm:rounded-2xl">
+                      <ArrowUpRight className="h-5 w-5 stroke-[2] sm:h-6 sm:w-6" />
                     </div>
                   </div>
                   <div className="mt-4 hidden items-center justify-between border-t border-white/15 pt-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:flex">

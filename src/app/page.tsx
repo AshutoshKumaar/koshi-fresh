@@ -23,12 +23,9 @@ import { Section } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
-import { Search } from "lucide-react";
-import { useShop } from "@/context/shop-context";
 
 export default function HomePage() {
   const [email, setEmail] = React.useState("");
-  const { setIsSearchOpen } = useShop();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,10 +40,6 @@ export default function HomePage() {
 
   return (
     <div className="w-full">
-      <div className="space-y-2 border-b border-sand/50 bg-white px-4 pb-3 pt-[4.25rem] md:hidden">
-        <button type="button" onClick={() => setIsSearchOpen(true)} className="flex h-11 w-full items-center gap-2 rounded-xl border border-sand bg-sand/20 px-3 text-left text-sm text-stone shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest" aria-label="Search products"><Search className="h-4 w-4 shrink-0" />Search makhana, almonds, snacks</button>
-        <nav aria-label="Popular categories" className="-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1">{[{ label: "All Categories", href: "/shop" }, { label: "Makhana", href: "/shop/makhana" }, { label: "Flour & Powder", href: "/shop/flour" }, { label: "Chocolate", href: "/shop/chocolate" }, { label: "Nuts and Dry Fruits", href: "/shop/dry-fruits" }].map((category) => <Link key={category.href} href={category.href} className="min-h-10 shrink-0 snap-start rounded-full border border-sand bg-ivory px-4 py-2 text-xs font-semibold text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest">{category.label}</Link>)}</nav>
-      </div>
       {/* 1. HERO SECTION */}
       <Hero />
 
@@ -77,9 +70,9 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-3 md:mx-0 md:grid md:grid-cols-2 md:gap-5 md:overflow-visible md:px-0 lg:grid-cols-4 lg:gap-6">
+          <div className="grid grid-cols-2 gap-3 pb-1 sm:gap-4 md:grid-cols-2 md:gap-5 md:pb-0 lg:grid-cols-4 lg:gap-6">
             {PRODUCTS.map((product) => (
-              <ProductCardGrid key={product.slug} product={product} className="w-[72vw] max-w-[280px] shrink-0 snap-start md:w-auto md:max-w-none" />
+              <ProductCardGrid key={product.slug} product={product} compact />
             ))}
           </div>
         </Container>
@@ -247,6 +240,24 @@ export default function HomePage() {
             </form>
           </div>
         </Container>
+      </section>
+
+      <section aria-label="Koshi Fresh sourcing promise" className="relative overflow-hidden border-y border-gold/25 bg-gradient-to-r from-forest-dark via-forest to-forest-dark py-3.5 sm:py-4">
+        <p className="sr-only">Farm-fresh foxnuts sourced straight from Mithila, with care for local farming communities.</p>
+        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-forest-dark to-transparent sm:w-16" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-forest-dark to-transparent sm:w-16" />
+        <div aria-hidden="true" className="animate-marquee flex w-max items-center">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0 items-center gap-5 px-3 sm:gap-8 sm:px-5">
+              {["Farm-fresh foxnuts", "Sourced straight from Mithila", "Supporting local farming communities", "Pure, carefully selected superfoods"].map((message) => (
+                <span key={message} className="inline-flex items-center gap-5 whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.12em] text-ivory sm:gap-8 sm:text-xs sm:tracking-[0.16em]">
+                  {message}
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-light shadow-[0_0_10px_rgba(251,191,36,0.8)]" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );

@@ -44,7 +44,7 @@ export default function ShopPage() {
   });
 
   return (
-    <div className="bg-sand/10 min-h-screen pb-8 md:pb-16">
+    <div className="min-h-screen bg-sand/10 pb-28 md:pb-16">
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-forest-dark via-forest to-emerald-900 text-ivory pt-20 md:pt-32 pb-7 md:pb-16 mb-5 md:mb-10">
         <Container>
@@ -65,27 +65,28 @@ export default function ShopPage() {
       <Container>
         {/* Filter and Search Bar */}
         <div className="bg-white p-3 sm:p-6 rounded-2xl border border-sand/60 shadow-premium-sm mb-5 md:mb-10 space-y-3 md:space-y-4">
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 items-stretch md:items-center justify-between">
+          <div className="flex min-w-0 flex-row items-center gap-2 sm:gap-3 md:gap-4">
             {/* Search Input */}
-            <div className="relative flex-1 max-w-md">
+            <div className="relative min-w-0 flex-1 sm:max-w-md">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone/60" />
               <Input
                 type="text"
               placeholder="Search products or brands..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12 bg-sand/20 border-sand/60 text-obsidian rounded-xl text-sm"
+                className="h-11 rounded-xl border-sand/60 bg-sand/20 pl-9 text-xs text-obsidian sm:h-12 sm:pl-10 sm:text-sm"
               />
             </div>
 
             {/* Sort Dropdown */}
-            <div className="flex items-center gap-2 shrink-0">
-              <Filter className="h-4 w-4 text-stone shrink-0" />
-              <span className="text-xs text-stone font-sans font-medium uppercase tracking-wider">Sort:</span>
+            <div className="flex shrink-0 items-center gap-1.5">
+              <Filter className="h-4 w-4 shrink-0 text-stone" />
+              <span className="hidden text-xs font-medium uppercase tracking-wider text-stone sm:inline">Sort:</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-sand/20 border border-sand/60 rounded-xl px-3 py-2 text-xs font-sans font-medium text-obsidian focus:outline-none cursor-pointer"
+                aria-label="Sort products"
+                className="h-11 max-w-[118px] cursor-pointer rounded-xl border border-sand/60 bg-sand/20 px-2 text-[11px] font-medium text-obsidian focus:outline-none sm:h-auto sm:max-w-none sm:px-3 sm:py-2 sm:text-xs"
               >
                 <option value="featured">Featured</option>
                 <option value="price-low">Price: Low to High</option>
@@ -96,12 +97,12 @@ export default function ShopPage() {
           </div>
 
           {/* Category Tabs */}
-          <div className="-mx-3 flex snap-x gap-2 overflow-x-auto border-t border-sand/40 px-3 pt-3 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+          <div className="grid grid-cols-2 gap-2 border-t border-sand/40 pt-3 sm:flex sm:flex-wrap">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`min-h-11 shrink-0 px-4 py-2 rounded-xl text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest ${
+                className={`min-h-10 px-2 py-2 rounded-xl text-[11px] sm:px-4 sm:text-xs font-sans font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest ${
                   selectedCategory === cat.id
                     ? "bg-forest text-white shadow-premium-sm"
                     : "bg-sand/30 text-charcoal hover:bg-sand/60"
@@ -112,10 +113,10 @@ export default function ShopPage() {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 border-t border-sand/40 pt-3">
-            <span className="mr-1 text-xs font-semibold uppercase tracking-wider text-stone">Brand:</span>
+          <div className="grid grid-cols-2 items-center gap-2 border-t border-sand/40 pt-3 sm:flex sm:flex-wrap">
+            <span className="col-span-2 text-[11px] font-semibold uppercase tracking-wider text-stone sm:mr-1 sm:text-xs">Brand</span>
             {brands.map((brand) => (
-              <button key={brand} type="button" onClick={() => setSelectedBrand(brand)} aria-pressed={selectedBrand === brand} className={`min-h-10 rounded-xl px-3 py-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest ${selectedBrand === brand ? "bg-forest text-white" : "bg-sand/30 text-charcoal hover:bg-sand/60"}`}>
+              <button key={brand} type="button" onClick={() => setSelectedBrand(brand)} aria-pressed={selectedBrand === brand} className={`min-h-10 min-w-0 rounded-xl px-2 py-2 text-[11px] leading-tight font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest sm:px-3 sm:text-xs ${selectedBrand === brand ? "bg-forest text-white" : "bg-sand/30 text-charcoal hover:bg-sand/60"}`}>
                 {brand === "all" ? "All brands" : brand}
               </button>
             ))}
