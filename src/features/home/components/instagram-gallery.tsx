@@ -1,10 +1,7 @@
-"use client";
-
-import * as React from "react";
 import Image from "next/image";
-import { Camera, Heart, ExternalLink } from "lucide-react";
+import { Camera, Heart } from "lucide-react";
 import { Container } from "@/components/ui/container";
-import { toast } from "@/components/ui/toast";
+import { InstagramFollowButton } from "@/features/home/components/instagram-follow-button";
 
 const GALLERY_PHOTOS = [
   {
@@ -103,19 +100,7 @@ export function InstagramGallery() {
 
         {/* Instagram Social Banner CTA */}
         <div className="mt-12 text-center">
-          <button
-            onClick={() => {
-              toast({
-                title: "@KoshiFresh Instagram",
-                description: "Redirecting to Koshi Fresh official Instagram channel...",
-              });
-            }}
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-forest text-ivory font-sans font-bold text-sm hover:bg-forest-light transition-all duration-300 shadow-premium-md cursor-pointer group"
-          >
-            <Camera className="h-4 w-4 text-gold-light" />
-            <span>Follow @KoshiFresh on Instagram</span>
-            <ExternalLink className="h-4 w-4 opacity-70 group-hover:translate-x-1 transition-transform" />
-          </button>
+          <InstagramFollowButton />
           <span className="text-xs font-sans text-stone block mt-3 font-light">
             📸 Join 25,000+ health enthusiasts sharing daily organic wellness rituals.
           </span>

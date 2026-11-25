@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { Award, Leaf, ShieldCheck, Flame, MapPin, Truck } from "lucide-react";
 import { Container } from "@/components/ui/container";

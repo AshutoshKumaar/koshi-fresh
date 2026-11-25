@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
-import { Mooli, Plus_Jakarta_Sans } from "next/font/google";
+import { Mooli } from "next/font/google";
 import "./globals.css";
 
 const mooli = Mooli({
   variable: "--font-mooli",
   subsets: ["latin"],
   weight: ["400"],
-});
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 import { AuthProvider } from "@/context/auth-context";
 import { ShopProvider } from "@/context/shop-context";
 import { LayoutWrapper } from "@/components/common/layout-wrapper";
+import { Footer } from "@/components/common/footer";
 import { Toaster } from "@/components/ui/toast";
 
 export const metadata: Metadata = {
@@ -37,11 +33,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${mooli.variable} ${plusJakartaSans.variable} antialiased font-sans`}
+        className={`${mooli.variable} antialiased font-sans`}
       >
         <AuthProvider>
           <ShopProvider>
-            <LayoutWrapper>
+            <LayoutWrapper footer={<Footer />}>
               {children}
             </LayoutWrapper>
             <Toaster />

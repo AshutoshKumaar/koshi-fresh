@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Star, Quote, ChevronLeft, ChevronRight, CheckCircle2, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -67,7 +66,7 @@ export function ReviewsSection() {
 
   // Auto slide effect
   React.useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
     }, 5000);
@@ -107,15 +106,7 @@ export function ReviewsSection() {
 
         {/* Sliding Reviews Carousel */}
         <div className="max-w-6xl mx-auto relative">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
+          <div key={currentIndex} className="review-carousel-enter grid grid-cols-1 md:grid-cols-3 gap-6">
               {visibleReviews.map((review, idx) => (
                 <div
                   key={idx}
@@ -162,8 +153,7 @@ export function ReviewsSection() {
                   </div>
                 </div>
               ))}
-            </motion.div>
-          </AnimatePresence>
+          </div>
 
           {/* Carousel Navigation Controls & Indicators */}
           <div className="flex items-center justify-center gap-6 pt-10">

@@ -94,6 +94,7 @@ export default function HomePage() {
                 src="/mithila-sourcing-harvest.jpg"
                 alt="Mithila Organic Harvest Sourcing"
                 fill
+                sizes="(max-width: 1023px) 100vw, 42vw"
                 className="object-cover object-center group-hover:scale-108 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

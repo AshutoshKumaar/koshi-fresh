@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 import Image from "next/image";
 
@@ -76,29 +75,24 @@ export function Hero() {
           priority
           fetchPriority="high"
           sizes="100vw"
-          quality={80}
+          quality={75}
           className={`object-cover object-center ${currentSlide === 0 ? "opacity-75" : "opacity-0"}`}
         />
-        <AnimatePresence mode="wait">
-          {activeSlide.id !== 1 && <motion.div
+        {activeSlide.id !== 1 && (
+          <div
             key={activeSlide.id}
-            initial={{ opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 0.75, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
-            className="absolute inset-0"
+            className="hero-background-enter absolute inset-0"
           >
             <Image
               src={activeSlide.bgImage}
               alt=""
               fill
               sizes="100vw"
-              quality={80}
+              quality={75}
               className="object-cover object-center"
             />
-          </motion.div>
-          }
-        </AnimatePresence>
+          </div>
+        )}
 
         {/* Crisp Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-forest-dark/85 via-forest-dark/50 to-transparent" />
@@ -109,32 +103,18 @@ export function Hero() {
         {/* ================= LEFT COLUMN: CLEAN EDITORIAL CONTENT ================= */}
         <div className="min-w-0 md:col-span-1 lg:col-span-6 space-y-4 md:space-y-5 text-left">
           {/* Animated Gold Badge */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSlide.badge}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              transition={{ duration: 0.3 }}
-              className="inline-flex max-w-full items-center gap-2 rounded-full border border-gold/40 bg-gold/15 px-3.5 py-1 backdrop-blur-md shadow-premium-sm"
-            >
+          <div
+            key={activeSlide.badge}
+            className="hero-badge-enter inline-flex max-w-full items-center gap-2 rounded-full border border-gold/40 bg-gold/15 px-3.5 py-1 backdrop-blur-md shadow-premium-sm"
+          >
               <span className="h-2 w-2 rounded-full bg-gold animate-ping" />
               <span className="min-w-0 text-[10px] sm:text-xs font-sans font-bold uppercase tracking-wide sm:tracking-wider text-gold-light">
                 {activeSlide.badge}
               </span>
-            </motion.div>
-          </AnimatePresence>
+          </div>
 
           {/* Animated Headline & Subtitle */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSlide.id}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="space-y-3"
-            >
+          <div key={activeSlide.id} className="hero-copy-enter space-y-3">
               <h1 className="font-hero text-ivory tracking-tight text-[2rem] sm:text-5xl lg:text-6xl font-extrabold leading-[1.08]">
                 {activeSlide.titlePrefix} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold to-amber-200">
@@ -144,8 +124,7 @@ export function Hero() {
               <p className="w-full min-w-0 max-w-lg break-words font-body-premium text-ivory/90 text-sm sm:text-base leading-relaxed font-normal drop-shadow-sm [overflow-wrap:anywhere]">
                 {activeSlide.subtitle}
               </p>
-            </motion.div>
-          </AnimatePresence>
+          </div>
 
           {/* Action CTAs */}
           <div className="flex flex-wrap gap-2.5 pt-1 md:gap-3 md:pt-2">
@@ -189,18 +168,15 @@ export function Hero() {
           <div className="absolute inset-0 z-0 bg-emerald-500/20 rounded-full filter blur-[80px] pointer-events-none animate-pulse" />
 
           {/* Clean Glassmorphic Food Studio Card */}
-          <motion.div
+          <div
             key={activeSlide.id}
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="w-full max-w-[400px] h-[300px] sm:h-[360px] z-10 relative rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.6)] border border-ivory/25 group"
+            className="hero-card-enter w-full max-w-[400px] h-[300px] sm:h-[360px] z-10 relative rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.6)] border border-ivory/25 group"
           >
             <Image
               src="/hero-makhana-bowl.jpg"
               alt="Fresh Crispy Organic Makhana Bowl"
               fill
-              sizes="(max-width: 1023px) 1px, 400px"
+              sizes="(max-width: 767px) 1px, (max-width: 832px) 48vw, 400px"
               className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -221,7 +197,7 @@ export function Hero() {
                 {activeSlide.studioCardDesc}
               </p>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

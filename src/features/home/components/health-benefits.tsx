@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { Scale, Heart, Dumbbell, Activity, ShieldCheck, Sparkles, CheckCircle2 } from "lucide-react";
 import { Container } from "@/components/ui/container";

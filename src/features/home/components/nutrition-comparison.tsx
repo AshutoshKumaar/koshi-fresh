@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { Check, X, Sparkles, Trophy, Zap, ShieldCheck, Flame } from "lucide-react";
 import { Container } from "@/components/ui/container";
