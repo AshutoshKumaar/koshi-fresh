@@ -148,11 +148,11 @@ export function Navbar() {
         <div className="min-w-0 flex-1 pr-20 text-left lg:flex-initial lg:pr-0">
           <Link href="/" aria-label="Koshi Fresh home" className="block w-[116px] sm:w-[150px] lg:w-[170px]">
             <Image
-              src="/koshi-fresh-logo.png"
+              src="/koshi-fresh-logo.webp"
               alt="Koshi Fresh — Bihar’s Premium Makhana"
-              width={2048}
-              height={1024}
-              priority
+              width={512}
+              height={213}
+              sizes="(max-width: 639px) 116px, (max-width: 1023px) 150px, 170px"
               className="h-auto w-full object-contain"
             />
           </Link>

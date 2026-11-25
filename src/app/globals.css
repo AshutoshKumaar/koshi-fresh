@@ -9,6 +9,7 @@
   --color-clay: #B45309;          /* Rich Terracotta Clay */
   --color-ivory: #FDFBF7;         /* Warm Luxe Linen */
   --color-gold: #D97706;          /* Rich Golden Amber */
+  --color-gold-contrast: #8A4B00; /* Accessible text shade of the brand gold */
   --color-gold-light: #FBBF24;    /* Glowing Gold */
 
   /* Neutral Theme Colors */
@@ -44,6 +45,9 @@
     to { height: 0; }
   }
 }
+
+/* Keep brand gold fills intact while making small gold text readable on light surfaces. */
+.text-gold { color: var(--color-gold-contrast); }
 
 :root {
   --background: #FDFBF7; /* Warm Luxe Ivory */

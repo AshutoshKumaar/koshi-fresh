@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
 import { getAuth, Auth } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
-import { getAnalytics, isSupported, Analytics } from "firebase/analytics";
+import type { Analytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -18,16 +18,29 @@ const app: FirebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebas
 const auth: Auth = getAuth(app);
 const db: Firestore = getFirestore(app);
 
-// Browser-safe optional analytics initialization
-let analytics: Analytics | null = null;
-if (typeof window !== "undefined") {
-  isSupported().then((supported) => {
-    if (supported) {
-      analytics = getAnalytics(app);
-    }
-  }).catch(() => {
-    // Analytics unsupported or blocked (e.g. adblocker)
-  });
+// Analytics is opt-in so importing Firebase for another feature does not
+// initialize an analytics client or add its SDK to the initial page bundle.
+export async function getAnalyticsClient(): Promise<Analytics | null> {
+  if (typeof window === "undefined") return null;
+  try {
+    const [{ getAnalytics, isSupported }] = await Promise.all([
+      import("firebase/analytics"),
+    ]);
+    return (await isSupported()) ? getAnalytics(app) : null;
+  } catch {
+    return null;
+  }
 }
 
-export { app, auth, db, analytics };
+// Preserve the existing analytics initialization, but wait until the browser
+// has spare time so it cannot compete with the initial render or LCP request.
+if (typeof window !== "undefined") {
+  const idleWindow = window as Window & { requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number };
+  if (idleWindow.requestIdleCallback) {
+    idleWindow.requestIdleCallback(() => { void getAnalyticsClient(); }, { timeout: 5000 });
+  } else {
+    window.setTimeout(() => { void getAnalyticsClient(); }, 3000);
+  }
+}
+
+export { app, auth, db };

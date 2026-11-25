@@ -20,10 +20,11 @@ export function Footer() {
           <div className="lg:col-span-6 space-y-5">
             <Link href="/" aria-label="Koshi Fresh home" className="block w-full max-w-[340px] overflow-hidden rounded-xl">
               <Image
-                src="/koshi-fresh-footer-logo.png"
+                src="/koshi-fresh-footer-logo.webp"
                 alt="Koshi Fresh — Bihar’s Premium Makhana"
-                width={1536}
-                height={1024}
+                width={680}
+                height={453}
+                sizes="(max-width: 1023px) 100vw, 560px"
                 className="h-auto w-full object-contain"
               />
             </Link>

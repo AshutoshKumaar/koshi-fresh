@@ -1,6 +1,3 @@
-"use client";
-
-import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Mail } from "lucide-react";
@@ -20,24 +17,9 @@ import { InstagramGallery } from "@/features/home/components/instagram-gallery";
 // UI Components
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/toast";
+import { NewsletterSignup } from "@/features/home/components/newsletter-signup";
 
 export default function HomePage() {
-  const [email, setEmail] = React.useState("");
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    toast({
-      variant: "success",
-      title: "Successfully Joined",
-      description: "Welcome to Koshi Fresh inner circle. Check your inbox for wellness guides.",
-    });
-    setEmail("");
-  };
-
   return (
     <div className="w-full">
       {/* 1. HERO SECTION */}
@@ -220,24 +202,7 @@ export default function HomePage() {
               </span>
             </div>
 
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 pt-4 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email address..."
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="bg-white/15 backdrop-blur-md border-white/25 text-white placeholder:text-white/60 hover:border-white/40 focus:border-white h-12 rounded-xl text-sm font-sans"
-              />
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                className="bg-gradient-to-r from-gold-light via-gold to-amber-500 hover:from-amber-400 hover:to-gold text-obsidian font-sans font-bold h-12 px-7 rounded-xl shadow-premium-md shrink-0 cursor-pointer"
-              >
-                Claim 15% OFF
-              </Button>
-            </form>
+            <NewsletterSignup />
           </div>
         </Container>
       </section>

@@ -73,6 +73,7 @@ export function InstagramGallery() {
                 src={item.image}
                 alt={`Instagram Feed ${idx + 1}`}
                 fill
+                sizes="(max-width: 639px) 46vw, (max-width: 1023px) 30vw, 16vw"
                 className="object-cover object-center group-hover:scale-110 transition-transform duration-700"
               />
 

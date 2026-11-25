@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   title: "Koshi Fresh | Premium Healthy Foods & Organic Makhana",
   description: "Sourced sustainably straight from the wetlands of Mithila, Bihar. Premium Raw and Roasted Makhana, Dry Fruits, Seeds, and organic superfoods.",
   icons: {
-    icon: "/favicon-icon.png",
-    shortcut: "/favicon-icon.png",
-    apple: "/favicon-icon.png",
+    icon: "/favicon-icon-optimized.png",
+    shortcut: "/favicon-icon-optimized.png",
+    apple: "/favicon-icon-optimized.png",
   },
 };
 

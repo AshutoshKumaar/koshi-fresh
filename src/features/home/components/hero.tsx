@@ -68,8 +68,19 @@ export function Hero() {
     <section className="relative w-full overflow-hidden bg-forest-dark text-ivory pt-20 md:pt-24 lg:pt-32 pb-8 md:pb-12 lg:pb-16 transition-colors duration-700 select-none flex items-center min-h-[min(62svh,560px)] md:min-h-[min(70svh,700px)] lg:min-h-[85vh]">
       {/* Animated Full-Bleed Background Slider */}
       <div className="absolute inset-0 z-0">
+        {/* Keep the first-slide LCP image visible and discoverable in the initial HTML. */}
+        <Image
+          src="/hero-lotus-farm-bg.jpg"
+          alt=""
+          fill
+          priority
+          fetchPriority="high"
+          sizes="100vw"
+          quality={80}
+          className={`object-cover object-center ${currentSlide === 0 ? "opacity-75" : "opacity-0"}`}
+        />
         <AnimatePresence mode="wait">
-          <motion.div
+          {activeSlide.id !== 1 && <motion.div
             key={activeSlide.id}
             initial={{ opacity: 0, scale: 1.04 }}
             animate={{ opacity: 0.75, scale: 1 }}
@@ -79,12 +90,14 @@ export function Hero() {
           >
             <Image
               src={activeSlide.bgImage}
-              alt="Hero Background"
+              alt=""
               fill
-              priority
+              sizes="100vw"
+              quality={80}
               className="object-cover object-center"
             />
           </motion.div>
+          }
         </AnimatePresence>
 
         {/* Crisp Gradient Overlays */}

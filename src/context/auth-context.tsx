@@ -3,20 +3,17 @@
 import * as React from "react";
 import {
   User as FirebaseUser,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  updateProfile,
 } from "firebase/auth";
-import {
-  doc,
-  setDoc,
-  getDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
 import type { CustomerProfile, AuthContextType } from "@/types/auth";
+
+async function getAuthServices() {
+  const [{ getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile }, { doc, setDoc, getDoc, serverTimestamp }, { app, db }] = await Promise.all([
+    import("firebase/auth"),
+    import("firebase/firestore"),
+    import("@/lib/firebase"),
+  ]);
+  return { auth: getAuth(app), db, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, doc, setDoc, getDoc, serverTimestamp };
+}
 
 const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 
@@ -58,35 +55,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Synchronize Firebase auth state
   React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const userDocRef = doc(db, "users", currentUser.uid);
-          const userSnap = await getDoc(userDocRef);
-
-          if (userSnap.exists()) {
-            setProfile(userSnap.data() as CustomerProfile);
+    let disposed = false;
+    let unsubscribe: (() => void) | undefined;
+    const start = () => {
+      void getAuthServices().then(({ auth, db, onAuthStateChanged, doc, getDoc }) => {
+        if (disposed) return;
+        unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+          setUser(currentUser);
+          if (currentUser) {
+            try {
+              const userSnap = await getDoc(doc(db, "users", currentUser.uid));
+              setProfile(userSnap.exists() ? userSnap.data() as CustomerProfile : {
+                uid: currentUser.uid,
+                name: currentUser.displayName || "Valued Customer",
+                email: currentUser.email || "",
+                phone: currentUser.phoneNumber || "",
+              });
+            } catch (err) {
+              console.error("Error loading user profile from Firestore:", err);
+            }
           } else {
-            // Document doesn't exist yet, construct profile from auth object
-            const fallbackProfile: CustomerProfile = {
-              uid: currentUser.uid,
-              name: currentUser.displayName || "Valued Customer",
-              email: currentUser.email || "",
-              phone: currentUser.phoneNumber || "",
-            };
-            setProfile(fallbackProfile);
+            setProfile(null);
           }
-        } catch (err) {
-          console.error("Error loading user profile from Firestore:", err);
-        }
-      } else {
-        setProfile(null);
-      }
-      setLoading(false);
-    });
+          setLoading(false);
+        });
+      }).catch((error) => {
+        console.error("Firebase authentication could not be initialized:", error);
+        if (!disposed) setLoading(false);
+      });
+    };
 
-    return () => unsubscribe();
+    const idleWindow = window as Window & { requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void };
+    const idleId = idleWindow.requestIdleCallback?.(start, { timeout: 2500 });
+    const fallbackId = idleId === undefined ? window.setTimeout(start, 1200) : undefined;
+    return () => {
+      disposed = true;
+      if (idleId !== undefined) idleWindow.cancelIdleCallback?.(idleId);
+      if (fallbackId !== undefined) window.clearTimeout(fallbackId);
+      unsubscribe?.();
+    };
   }, []);
 
   const signUp = async (name: string, email: string, pass: string) => {
@@ -94,6 +101,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const trimmedEmail = email.trim().toLowerCase();
 
     // 1. Create user in Firebase Auth
+    const services = await getAuthServices();
+    const { auth, db, createUserWithEmailAndPassword, updateProfile, doc, setDoc, serverTimestamp } = services;
     const userCredential = await createUserWithEmailAndPassword(auth, trimmedEmail, pass);
     const createdUser = userCredential.user;
 
@@ -126,6 +135,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (email: string, pass: string) => {
     const trimmedEmail = email.trim().toLowerCase();
+    const { auth, db, signInWithEmailAndPassword, doc, getDoc } = await getAuthServices();
     const userCredential = await signInWithEmailAndPassword(auth, trimmedEmail, pass);
     const loggedInUser = userCredential.user;
 
@@ -148,7 +158,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signOut = async () => {
-    await firebaseSignOut(auth);
+    const { auth, signOut } = await getAuthServices();
+    await signOut(auth);
     setUser(null);
     setProfile(null);
   };
