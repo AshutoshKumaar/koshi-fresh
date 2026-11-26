@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Container } from "@/components/ui/container";
-import { PRODUCTS } from "@/data/products";
+import { STOREFRONT_PRODUCTS } from "@/data/products";
 import { ProductCardGrid } from "@/features/shop/components/product-card-grid";
 import { Sparkles, Filter, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -24,7 +24,7 @@ export default function ShopPage() {
   ];
   const brands = ["all", ...MAKHANA_BRANDS];
 
-  const filteredProducts = PRODUCTS.filter((product) => {
+  const filteredProducts = STOREFRONT_PRODUCTS.filter((product) => {
     const matchesCategory =
       selectedCategory === "all" || product.category === selectedCategory;
     const matchesBrand = selectedBrand === "all" || product.brand === selectedBrand;

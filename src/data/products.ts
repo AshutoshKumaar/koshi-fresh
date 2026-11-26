@@ -71,30 +71,23 @@ const importedListings: Product[] = FLIPKART_MAKHANA_LISTINGS.map((listing) => (
 
 const madhurAsset = (filename: string) => `/madhur/${encodeURIComponent(filename.replace(/\.png$/i, ".webp"))}`;
 const madhurCommon250g = [
-  "FSSAI View Guidelines for Makhana Pack.png",
-  "Madhur Makhana Ingredients Poster.png",
-  "Madhur Makhana Wellness Snack Moment.png",
-  "Madhur Phool Makhana Advertisement.png",
-  "Madhur Phool Makhana Ingredient Showcase (1).png",
-  "Madhur Phool Makhana Ingredients Poster.png",
-  "Madhur Phool Makhana Packaging Back.png",
-  "Madhur Phool Makhana Packaging Design.png",
-  "Madhur Phool Makhana Packaging(1).png",
-  "Madhur Phool Makhana Packaging(2).png",
-  "Madhur Phool Makhana Pouch Advertisement.png",
-  "Madhur Phool Makhana Snack Display.png",
-  "Madhur Phool Makhana Veg Pouch.png",
   "Sugar-Free Phool Makhana Packaging.png",
-  "new-label-2 (4).png",
+  "Madhur Phool Makhana Snack Display.png",
+  "Madhur Phool Makhana Packaging Back.png",
+  "Madhur Phool Makhana Ingredient Showcase (1).png",
+  "Madhur Phool Makhana Healthy Snack Poster (1).png",
+  "FSSAI View Guidelines for Makhana Pack.png",
+  "Healthy Makhana Family Snack Ad.png"
+
 ];
 const madhurTwoPack = [
-  "Healthy Makhana Family Snack Ad (1).png",
-  "Healthy Makhana Family Snack Ad.png",
-  "Madhur Phool Makhana 2-Pack Ad.png",
-  "Madhur Phool Makhana Combo Label.png",
   "Madhur Phool Makhana Combo Pack.png",
   "Madhur Phool Makhana Healthy Snack Pack.png",
+  "Madhur Phool Makhana Packaging Back.png",
+  "Madhur Phool Makhana Combo Label.png",
+  "Madhur Phool Makhana Healthy Snack Pack.png",
   "Madhur Phool Makhana Twin Pack.png",
+  "Healthy Makhana Family Snack Ad (1).png"
 ];
 const madhurThreePack = [
   "Madhur Phool Makhana 3-Pack Display.png",
@@ -115,6 +108,7 @@ const madhurProduct = (args: {
   price: number; mrp: number; images: string[];
 }): Product => ({
   slug: args.slug,
+  storefrontVisible: false,
   name: args.name,
   subtitle: args.subtitle,
   brand: "Madhur Phool Makhana",
@@ -138,6 +132,108 @@ const madhurListings: Product[] = [
   madhurProduct({ slug: "madhur-raw-phool-makhana-3x250g", name: "Madhur Raw Phool Makhana · 3 × 250 g", subtitle: "Madhur Phool Makhana, three pack · 750 g total", sku: "KF-MAD-MAK-250G-X3", grams: 750, price: 593, mrp: 1199, images: madhurThreePack }),
   madhurProduct({ slug: "madhur-raw-makhana-1kg", name: "Madhur Raw Makhana · 1 kg", subtitle: "Madhur Phool Makhana · 1 kg pack", sku: "KF-MD-RD-1KG", grams: 1000, price: 799, mrp: 1999, images: madhurCommon250g.slice(14) }),
   madhurProduct({ slug: "madhur-phool-makhana-4x250g", name: "Madhur Phool Makhana · 4 × 250 g", subtitle: "Madhur Phool Makhana, four pack · 1 kg total", sku: "KF-BL-MAK-1KG-RAW", grams: 1000, price: 805, mrp: 1699, images: madhurFourPack }),
+];
+
+const madhurGradeAssets = {
+  premium5Suta: "Madhur Phool Makhana Premium Pack.png",
+  medium4Suta: "Madhur Phool Makhana Snack Display.png",
+  premium6Suta: "Madhur Phool Makhana Healthy Snack Poster (1).png",
+  small3Suta: "Madhur Phool Makhana Snack Trio.png",
+  premium5PlusSuta: "Madhur Phool Makhana Combo Pack.png",
+  mix4PlusSuta: "Madhur Phool Makhana Twin Pack.png",
+} as const;
+
+const madhurGradeProduct = (args: {
+  slug: string;
+  name: string;
+  gradeLabel: string;
+  gradeCode: string;
+  pricePerKg: number;
+  description: string;
+  image: string;
+}): Product => ({
+  slug: args.slug,
+  name: args.name,
+  subtitle: `${args.gradeLabel} · available in 250g, 500g, 750g and 1kg packs`,
+  brand: "Madhur Phool Makhana",
+  seller: "Renuka Enterprises",
+  category: "makhana",
+  description: args.description,
+  nutritionalInfo: { calories: "Not provided", protein: "Not provided", fat: "Not provided", fiber: "Not provided" },
+  sourcing: "RENUKA Enterprises, Prem Nagar, Anathalay Road, Katihar Sadar, Katihar, Bihar - 854105, India.",
+  images: [madhurAsset(args.image)],
+  rating: 0,
+  reviewsCount: 0,
+  badges: [args.gradeLabel],
+  variants: [250, 500, 750, 1000].map((weightGrams) => {
+    const weightCode = weightGrams === 1000 ? "1KG" : `${weightGrams}G`;
+    const weight = weightGrams === 1000 ? "1kg" : `${weightGrams}g`;
+    return {
+      id: `MAD-${args.gradeCode}-${weightCode}`,
+      weight,
+      weightGrams,
+      price: (args.pricePerKg * weightGrams) / 1000,
+      // No stock source or verified original prices exist for these new grades.
+      inStock: false,
+    };
+  }),
+});
+
+const madhurGradeListings: Product[] = [
+  madhurGradeProduct({
+    slug: "madhur-premium-makhana-5-suta",
+    name: "Madhur Premium Makhana – 5 Suta",
+    gradeLabel: "5 Suta",
+    gradeCode: "5S",
+    pricePerKg: 1100,
+    description: "Madhur 5 Suta makhana, classified in the 5 Suta size grade. Available in 250g, 500g, 750g and 1kg pack sizes.",
+    image: madhurGradeAssets.premium5Suta,
+  }),
+  madhurGradeProduct({
+    slug: "madhur-medium-makhana-4-suta",
+    name: "Madhur Medium Makhana – 4 Suta",
+    gradeLabel: "4 Suta",
+    gradeCode: "4S",
+    pricePerKg: 800,
+    description: "Madhur medium makhana, classified in the 4 Suta size grade. Available in 250g, 500g, 750g and 1kg pack sizes.",
+    image: madhurGradeAssets.medium4Suta,
+  }),
+  madhurGradeProduct({
+    slug: "madhur-premium-handpicked-makhana-6-suta",
+    name: "Madhur Premium Handpicked Makhana – 6 Suta",
+    gradeLabel: "6 Suta · Handpicked",
+    gradeCode: "6S",
+    pricePerKg: 1400,
+    description: "Madhur premium makhana in the 6 Suta size grade, identified as handpicked. Available in 250g, 500g, 750g and 1kg pack sizes.",
+    image: madhurGradeAssets.premium6Suta,
+  }),
+  madhurGradeProduct({
+    slug: "madhur-small-handpicked-makhana-3-suta",
+    name: "Madhur Small Handpicked Makhana – 3 Suta",
+    gradeLabel: "3 Suta · Handpicked",
+    gradeCode: "3S",
+    pricePerKg: 600,
+    description: "Madhur small makhana in the 3 Suta size grade, identified as handpicked. Available in 250g, 500g, 750g and 1kg pack sizes.",
+    image: madhurGradeAssets.small3Suta,
+  }),
+  madhurGradeProduct({
+    slug: "madhur-premium-mixed-makhana-5-plus-suta",
+    name: "Madhur Premium Mixed Makhana – 5+ Suta",
+    gradeLabel: "5+ Suta · Mixed Size",
+    gradeCode: "5PLUS",
+    pricePerKg: 1200,
+    description: "Madhur premium mixed-size makhana with a 5+ Suta grade classification. The pack contains a mixed-size composition. Available in 250g, 500g, 750g and 1kg pack sizes.",
+    image: madhurGradeAssets.premium5PlusSuta,
+  }),
+  madhurGradeProduct({
+    slug: "madhur-mix-size-makhana-4-plus-suta",
+    name: "Madhur Mix Size Makhana – 4+ Suta",
+    gradeLabel: "4+ Suta · Mixed Size",
+    gradeCode: "4PLUS",
+    pricePerKg: 1000,
+    description: "Madhur mixed-size makhana with a 4+ Suta grade classification. The pack contains a mixed-size composition. Available in 250g, 500g, 750g and 1kg pack sizes.",
+    image: madhurGradeAssets.mix4PlusSuta,
+  }),
 ];
 
 export const PRODUCTS: Product[] = [
@@ -240,6 +336,10 @@ export const PRODUCTS: Product[] = [
   },
   ...importedListings,
   ...madhurListings,
+  ...madhurGradeListings,
 ];
+
+/** Customer-facing catalog. PRODUCTS retains hidden legacy entries for cart and order compatibility. */
+export const STOREFRONT_PRODUCTS = PRODUCTS.filter((product) => product.storefrontVisible !== false);
 
 export type Products = typeof PRODUCTS;

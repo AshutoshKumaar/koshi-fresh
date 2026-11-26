@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, STOREFRONT_PRODUCTS } from "@/data/products";
 import { Price } from "@/features/shop/components/price";
 import { Rating } from "@/features/shop/components/rating";
 import { VariantSelector } from "@/features/shop/components/variant-selector";
@@ -39,6 +39,7 @@ export default function ProductDetailPage() {
   }, [product]);
 
   const handleAddToCart = () => {
+    if (!selectedVariant.inStock) return;
     addToCart(product.slug, selectedVariant.id, quantity);
     toast({
       title: "Added to Bag",
@@ -47,6 +48,7 @@ export default function ProductDetailPage() {
   };
 
   const handleBuyNow = () => {
+    if (!selectedVariant.inStock) return;
     addToCart(product.slug, selectedVariant.id, quantity);
     router.push("/checkout");
   };
@@ -63,7 +65,7 @@ export default function ProductDetailPage() {
     }
   };
 
-  const relatedProducts = PRODUCTS.filter((p) => p.slug !== product.slug).slice(0, 3);
+  const relatedProducts = STOREFRONT_PRODUCTS.filter((p) => p.slug !== product.slug).slice(0, 3);
 
   return (
     <div className="pt-16 pb-28 bg-sand/10 min-h-screen md:pt-24 md:pb-20">
@@ -181,6 +183,7 @@ export default function ProductDetailPage() {
                 <div className="grid grid-cols-2 gap-2 pt-2">
                   <Button
                     onClick={handleAddToCart}
+                    disabled={!selectedVariant.inStock}
                     variant="outline"
                     size="lg"
                     className="w-full min-w-0 whitespace-normal font-sans font-bold h-12 text-xs sm:text-sm rounded-xl border-forest text-forest hover:bg-forest/5 cursor-pointer"
@@ -189,6 +192,7 @@ export default function ProductDetailPage() {
                   </Button>
                   <Button
                     onClick={handleBuyNow}
+                    disabled={!selectedVariant.inStock}
                     variant="primary"
                     size="lg"
                     className="w-full min-w-0 whitespace-normal font-sans font-bold h-12 text-xs sm:text-sm rounded-xl bg-forest hover:bg-forest-light text-white shadow-premium-md cursor-pointer"
@@ -253,7 +257,7 @@ export default function ProductDetailPage() {
               <p className="text-[10px] text-stone">{selectedVariant.weight}</p>
               <p className="font-serif text-lg font-bold text-forest">₹{selectedVariant.price}</p>
             </div>
-            <Button onClick={handleBuyNow} className="h-12 min-w-0 flex-1 rounded-xl bg-forest text-sm font-bold text-white">Buy Now</Button>
+            <Button onClick={handleBuyNow} disabled={!selectedVariant.inStock} className="h-12 min-w-0 flex-1 rounded-xl bg-forest text-sm font-bold text-white">Buy Now</Button>
           </div>
 </div>
       </div>

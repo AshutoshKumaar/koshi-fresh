@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, STOREFRONT_PRODUCTS } from "@/data/products";
 import { useShop } from "@/context/shop-context";
 import { useAuth } from "@/context/auth-context";
 import { OrderProgress } from "@/components/account/order-progress";
@@ -127,7 +127,7 @@ export default function CheckoutPage() {
   const totalSavings = productSavings + effectiveDiscountAmount;
   const selectedDelivery = deliveryOptions.find((option) => option.courierId === selectedCourierId) || null;
   const checkoutAddOn = CHECKOUT_ADD_ON_SLUGS
-    .map((slug) => PRODUCTS.find((product) => product.slug === slug))
+    .map((slug) => STOREFRONT_PRODUCTS.find((product) => product.slug === slug))
     .find((product) => product && !cartItems.some((item) => item.slug === product.slug));
   const checkoutAddOnVariant = checkoutAddOn?.variants.find((variant) => variant.inStock);
   const checkoutAddOnSaving = checkoutAddOnVariant?.originalPrice && checkoutAddOnVariant.originalPrice > checkoutAddOnVariant.price

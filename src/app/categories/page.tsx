@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { ArrowRight, Grid, CheckCircle2 } from "lucide-react";
-import { PRODUCTS } from "@/data/products";
+import { STOREFRONT_PRODUCTS } from "@/data/products";
 
 export default function CategoriesPage() {
   const categoriesList = [
@@ -73,7 +73,7 @@ export default function CategoriesPage() {
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {categoriesList.map((cat) => {
-            const itemCount = PRODUCTS.filter((product) => product.category === cat.id).length;
+            const itemCount = STOREFRONT_PRODUCTS.filter((product) => product.category === cat.id).length;
             return (
             <div
               key={cat.id}

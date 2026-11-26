@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useParams } from "next/navigation";
 import { Container } from "@/components/ui/container";
-import { PRODUCTS } from "@/data/products";
+import { STOREFRONT_PRODUCTS } from "@/data/products";
 import { ProductCardGrid } from "@/features/shop/components/product-card-grid";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -31,7 +31,7 @@ export default function CategoryPage() {
   const categoryTitle = categoryTitles[categorySlug] || "Products";
   const selectedBrand = brandSlugs[categorySlug];
 
-  const categoryProducts = PRODUCTS.filter((p) => {
+  const categoryProducts = STOREFRONT_PRODUCTS.filter((p) => {
     if (selectedBrand) return p.brand === selectedBrand;
     if (categorySlug === "raw-makhana" || categorySlug === "roasted-makhana" || categorySlug === "makhana") {
       return p.category === "makhana";

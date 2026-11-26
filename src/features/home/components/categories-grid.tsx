@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, Sparkles, ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/container";
-import { PRODUCTS } from "@/data/products";
+import { STOREFRONT_PRODUCTS } from "@/data/products";
 
 const CATEGORIES = [
   {
@@ -113,8 +113,8 @@ export function CategoriesGrid() {
         <div className="grid grid-cols-2 gap-1 pb-1 sm:gap-4 md:grid-cols-2 md:gap-6 md:pb-0 lg:grid-cols-12">
           {visibleCategories.map((category) => {
             const itemCount = category.brand
-              ? PRODUCTS.filter((product) => product.brand === category.brand).length
-              : PRODUCTS.filter((product) => product.category === category.group).length;
+              ? STOREFRONT_PRODUCTS.filter((product) => product.brand === category.brand).length
+              : STOREFRONT_PRODUCTS.filter((product) => product.category === category.group).length;
 
             return (
               <Link

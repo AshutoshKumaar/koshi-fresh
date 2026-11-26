@@ -5,13 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Search, ShoppingBag, Heart, Trash2, Minus, Plus, X, ArrowRight } from "lucide-react";
 import { useShop } from "@/context/shop-context";
-import { PRODUCTS } from "@/data/products";
+import { PRODUCTS, STOREFRONT_PRODUCTS } from "@/data/products";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter } from "@/components/ui/drawer";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const SEARCHABLE_PRODUCTS = PRODUCTS.map((product) => ({
+const SEARCHABLE_PRODUCTS = STOREFRONT_PRODUCTS.map((product) => ({
   product,
   searchText: `${product.name} ${product.brand} ${product.subtitle} ${product.description}`.toLowerCase(),
 }));

@@ -12,6 +12,8 @@ export const MAKHANA_BRANDS = ["Koshi Fresh", "Madhur Phool Makhana", "Krishna P
 
 export interface Product {
   slug: string;
+  /** Hide a legacy listing from product discovery while keeping its IDs valid for existing carts and orders. */
+  storefrontVisible?: boolean;
   name: string;
   subtitle: string;
   /** Customer-facing product brand; the seller/manufacturer can own several brands. */

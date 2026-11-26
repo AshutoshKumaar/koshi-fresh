@@ -28,14 +28,15 @@ export function VariantSelector({
           return (
             <button
               key={v.id}
-              disabled={disabled || !v.inStock}
+              disabled={disabled}
+              aria-label={`${v.weight}${v.inStock ? "" : ", out of stock"}`}
               onClick={() => onChange(v.id)}
               className={cn(
                 "min-h-11 px-4 text-xs font-medium rounded-lg border transition-all duration-200 select-none cursor-pointer flex items-center justify-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest",
                 isSelected
                   ? "bg-forest border-forest text-ivory shadow-premium-sm"
                   : "bg-white border-stone/50 text-obsidian hover:border-forest/60",
-                !v.inStock && "opacity-40 cursor-not-allowed border-stone/30 bg-sand/20 text-stone"
+                !v.inStock && "opacity-60 border-stone/30 bg-sand/20 text-stone"
               )}
             >
               <span>{v.weight}</span>

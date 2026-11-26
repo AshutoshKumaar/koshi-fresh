@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Mail } from "lucide-react";
-import { PRODUCTS } from "@/data/products";
+import { STOREFRONT_PRODUCTS } from "@/data/products";
 
 // Feature Components
 import { Hero } from "@/features/home/components/hero";
@@ -53,7 +53,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 gap-3 pb-1 sm:gap-4 md:grid-cols-2 md:gap-5 md:pb-0 lg:grid-cols-4 lg:gap-6">
-            {PRODUCTS.map((product) => (
+            {STOREFRONT_PRODUCTS.map((product) => (
               <ProductCardGrid key={product.slug} product={product} compact />
             ))}
           </div>
