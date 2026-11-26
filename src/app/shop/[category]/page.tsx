@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { PRODUCTS } from "@/data/products";
 import { ProductCardGrid } from "@/features/shop/components/product-card-grid";
+import Image from "next/image";
+import madhurImages from "@/data/madhur-images.json";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -58,6 +60,20 @@ export default function CategoryPage() {
       </div>
 
       <Container>
+        {categorySlug === "madhur-phool-makhana" && <section className="mb-10" aria-labelledby="madhur-gallery-heading">
+          <div className="mb-5">
+            <h2 id="madhur-gallery-heading" className="font-serif text-2xl font-bold text-forest sm:text-3xl">Madhur Photo Gallery</h2>
+            <p className="mt-2 text-sm text-stone">Packaging, product displays, and snack inspiration from Madhur Phool Makhana.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {madhurImages.map((filename) => <figure key={filename} className="overflow-hidden rounded-xl border border-sand/70 bg-white shadow-sm">
+              <a href={`/madhur/${encodeURIComponent(filename)}`} target="_blank" rel="noreferrer" aria-label={`Open ${filename}`}>
+                <Image src={`/madhur/${encodeURIComponent(filename)}`} alt={filename.replace(/\.png$/i, "").replace(/[()_-]+/g, " ")} width={900} height={900} unoptimized className="aspect-square w-full object-contain bg-white" />
+              </a>
+              <figcaption className="line-clamp-2 px-3 py-2 text-xs font-medium text-charcoal">{filename.replace(/\.png$/i, "").replace(/[()_-]+/g, " ")}</figcaption>
+            </figure>)}
+          </div>
+        </section>}
         {categoryProducts.length ? <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
           {categoryProducts.map((product) => <ProductCardGrid key={product.slug} product={product} />)}
         </div> : <div className="rounded-2xl border border-sand/70 bg-white p-10 text-center"><p className="font-serif text-xl font-bold text-obsidian">Products coming soon</p><p className="mt-2 text-sm text-stone">We’re preparing this Renuka Enterprises collection.</p><Link className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-forest px-5 text-sm font-semibold text-white" href="/shop">Browse all products</Link></div>}
