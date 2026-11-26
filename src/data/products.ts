@@ -69,6 +69,77 @@ const importedListings: Product[] = FLIPKART_MAKHANA_LISTINGS.map((listing) => (
   variants: [{ id: listing.sku, weight: `${listing.grams}g`, weightGrams: listing.grams, price: listing.price, originalPrice: listing.mrp, inStock: listing.stock > 0 }],
 }));
 
+const madhurAsset = (filename: string) => `/madhur/${encodeURIComponent(filename.replace(/\.png$/i, ".webp"))}`;
+const madhurCommon250g = [
+  "FSSAI View Guidelines for Makhana Pack.png",
+  "Madhur Makhana Ingredients Poster.png",
+  "Madhur Makhana Wellness Snack Moment.png",
+  "Madhur Phool Makhana Advertisement.png",
+  "Madhur Phool Makhana Ingredient Showcase (1).png",
+  "Madhur Phool Makhana Ingredients Poster.png",
+  "Madhur Phool Makhana Packaging Back.png",
+  "Madhur Phool Makhana Packaging Design.png",
+  "Madhur Phool Makhana Packaging(1).png",
+  "Madhur Phool Makhana Packaging(2).png",
+  "Madhur Phool Makhana Pouch Advertisement.png",
+  "Madhur Phool Makhana Snack Display.png",
+  "Madhur Phool Makhana Veg Pouch.png",
+  "Sugar-Free Phool Makhana Packaging.png",
+  "new-label-2 (4).png",
+];
+const madhurTwoPack = [
+  "Healthy Makhana Family Snack Ad (1).png",
+  "Healthy Makhana Family Snack Ad.png",
+  "Madhur Phool Makhana 2-Pack Ad.png",
+  "Madhur Phool Makhana Combo Label.png",
+  "Madhur Phool Makhana Combo Pack.png",
+  "Madhur Phool Makhana Healthy Snack Pack.png",
+  "Madhur Phool Makhana Twin Pack.png",
+];
+const madhurThreePack = [
+  "Madhur Phool Makhana 3-Pack Display.png",
+  "Madhur Phool Makhana Snack Trio.png",
+];
+const madhurFourPack = [
+  "Healthy Makhana Family Snacking.png",
+  "Madhur Phool Makhana Four-Pack Display.png",
+  "Madhur Phool Makhana Healthy Snack Poster (1).png",
+  "Madhur Phool Makhana Healthy Snack Poster(1).png",
+  "Madhur Phool Makhana Healthy Snack Poster.png",
+  "Madhur Phool Makhana Healthy Snack Promo.png",
+  "Madhur Phool Makhana Premium Pack.png",
+  "Phool Makhana Healthy Snack Pack.png",
+];
+const madhurProduct = (args: {
+  slug: string; name: string; subtitle: string; sku: string; grams: number;
+  price: number; mrp: number; images: string[];
+}): Product => ({
+  slug: args.slug,
+  name: args.name,
+  subtitle: args.subtitle,
+  brand: "Madhur Phool Makhana",
+  seller: "Renuka Enterprises",
+  category: "makhana",
+  description: `${args.subtitle}. Flipkart seller SKU: ${args.sku}.`,
+  nutritionalInfo: { calories: "Not provided", protein: "Not provided", fat: "Not provided", fiber: "Not provided" },
+  sourcing: "RENUKA Enterprises, Prem Nagar, Anathalay Road, Katihar Sadar, Katihar, Bihar - 854105, India.",
+  images: args.images.map(madhurAsset),
+  rating: 0,
+  reviewsCount: 0,
+  badges: [],
+  variants: [{ id: args.sku, weight: args.grams >= 1000 ? `${args.grams / 1000}kg` : `${args.grams}g`, weightGrams: args.grams, price: args.price, originalPrice: args.mrp, inStock: true }],
+});
+
+const madhurListings: Product[] = [
+  madhurProduct({ slug: "madhur-premium-fox-nut-2x250g", name: "Madhur Premium Phool Makhana · 2 × 250 g", subtitle: "Madhur Phool Makhana, twin pack · 500 g total", sku: "KF-BL-MAK-500G-RAW", grams: 500, price: 423, mrp: 999, images: [...madhurTwoPack.slice(0, 2), ...madhurCommon250g.slice(0, 7)] }),
+  madhurProduct({ slug: "madhur-raw-phool-makhana-2x250g", name: "Madhur Raw Phool Makhana · 2 × 250 g", subtitle: "Madhur Phool Makhana, twin pack · 500 g total", sku: "KF-MAD-MAK-250GX2", grams: 500, price: 425, mrp: 899, images: [...madhurTwoPack.slice(2), ...madhurCommon250g.slice(7, 14)] }),
+  madhurProduct({ slug: "madhur-premium-phool-makhana-250g", name: "Madhur Premium Phool Makhana · 250 g", subtitle: "Madhur Phool Makhana · 250 g pack", sku: "KF-MAK-250G-RAW", grams: 250, price: 220, mrp: 549, images: madhurCommon250g.slice(0, 8) }),
+  madhurProduct({ slug: "madhur-phool-makhana-250g", name: "Madhur Phool Makhana · 250 g", subtitle: "Madhur Phool Makhana · 250 g pack", sku: "KF-BL-MAK-250G-RAW", grams: 250, price: 239, mrp: 499, images: madhurCommon250g.slice(7) }),
+  madhurProduct({ slug: "madhur-raw-phool-makhana-3x250g", name: "Madhur Raw Phool Makhana · 3 × 250 g", subtitle: "Madhur Phool Makhana, three pack · 750 g total", sku: "KF-MAD-MAK-250G-X3", grams: 750, price: 593, mrp: 1199, images: madhurThreePack }),
+  madhurProduct({ slug: "madhur-raw-makhana-1kg", name: "Madhur Raw Makhana · 1 kg", subtitle: "Madhur Phool Makhana · 1 kg pack", sku: "KF-MD-RD-1KG", grams: 1000, price: 799, mrp: 1999, images: madhurCommon250g.slice(14) }),
+  madhurProduct({ slug: "madhur-phool-makhana-4x250g", name: "Madhur Phool Makhana · 4 × 250 g", subtitle: "Madhur Phool Makhana, four pack · 1 kg total", sku: "KF-BL-MAK-1KG-RAW", grams: 1000, price: 805, mrp: 1699, images: madhurFourPack }),
+];
+
 export const PRODUCTS: Product[] = [
   {
     slug: "premium-raw-makhana",
@@ -168,6 +239,7 @@ export const PRODUCTS: Product[] = [
     ]
   },
   ...importedListings,
+  ...madhurListings,
 ];
 
 export type Products = typeof PRODUCTS;

@@ -26,12 +26,14 @@ export default function ProductDetailPage() {
   const { addToCart, wishlistCount, setWishlistCount } = useShop();
 
   const [selectedVariant, setSelectedVariant] = React.useState(product.variants[0]);
+  const [selectedImage, setSelectedImage] = React.useState(product.images[0]);
   const [quantity, setQuantity] = React.useState(1);
   const [isWishlisted, setIsWishlisted] = React.useState(false);
 
   React.useEffect(() => {
     if (product) {
       setSelectedVariant(product.variants[0]);
+      setSelectedImage(product.images[0]);
       setQuantity(1);
     }
   }, [product]);
@@ -81,7 +83,7 @@ export default function ProductDetailPage() {
             <div className="lg:col-span-6 space-y-4">
               <div className="relative aspect-square w-full rounded-2xl bg-sand/20 overflow-hidden border border-sand/50 shadow-premium-sm">
                 <Image
-                  src={product.images[0]}
+                  src={selectedImage}
                   alt={product.name}
                   fill
                   sizes="(max-width: 1023px) 100vw, 50vw"
@@ -98,6 +100,12 @@ export default function ProductDetailPage() {
                   </div>
                 )}
               </div>
+
+              {product.images.length > 1 && <div className="flex gap-2 overflow-x-auto pb-1" aria-label="Product images">
+                {product.images.map((image, index) => <button key={image} type="button" onClick={() => setSelectedImage(image)} aria-label={`Show product image ${index + 1}`} aria-pressed={selectedImage === image} className={`relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border bg-white ${selectedImage === image ? "border-forest ring-2 ring-forest/20" : "border-sand"}`}>
+                  <Image src={image} alt={`${product.name} image ${index + 1}`} fill sizes="64px" className="object-contain p-1" />
+                </button>)}
+              </div>}
 
               {/* Sourcing Guarantee Card */}
               <div className="p-4 rounded-xl bg-forest/5 border border-forest/15 flex items-start gap-3">
